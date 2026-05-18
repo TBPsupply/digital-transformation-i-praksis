@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a5568"/>
+    </marker>
+    <radialGradient id="aiGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.1"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="560" fill="#fafaf7"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="16" font-weight="600" fill="#1a202c">
+    Figur 0.3 — AI Processor-tavlen (anonymiseret), november 2025
+  </text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#718096">
+    Samme procestavle som figur 0.1 — men med AI-bobler hvor mennesker venter på information
+  </text>
+
+  <!-- Tools across top -->
+  <g font-size="11" font-weight="500" fill="#2d3748">
+    <rect x="170" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="220" y="98" text-anchor="middle">ERP</text>
+
+    <rect x="290" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="340" y="98" text-anchor="middle">Projektværktøj</text>
+
+    <rect x="410" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="460" y="98" text-anchor="middle">Compliance</text>
+
+    <rect x="530" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="580" y="98" text-anchor="middle">Excel-ark</text>
+
+    <rect x="650" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="700" y="98" text-anchor="middle">E-mail</text>
+  </g>
+
+  <!-- Roles down the left -->
+  <g font-size="11" font-weight="600" fill="#2d3748">
+    <rect x="20" y="140" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="164" text-anchor="middle">Salg</text>
+
+    <rect x="20" y="200" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="224" text-anchor="middle">Produkt &amp; udvikling</text>
+
+    <rect x="20" y="260" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="284" text-anchor="middle">Indkøb &amp; logistik</text>
+
+    <rect x="20" y="320" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="344" text-anchor="middle">Design</text>
+
+    <rect x="20" y="380" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="404" text-anchor="middle">Adm. koordinator</text>
+  </g>
+
+  <!-- Process steps in swimlanes -->
+  <g font-size="10" fill="#1a202c">
+    <rect x="170" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="220" y="163" text-anchor="middle">Kundekontakt</text>
+
+    <rect x="290" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="340" y="163" text-anchor="middle">Tilbud (manuelt)</text>
+
+    <rect x="530" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="580" y="163" text-anchor="middle">Prisberegning</text>
+
+    <rect x="650" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="700" y="163" text-anchor="middle">Bekræftelse</text>
+
+    <rect x="170" y="208" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="220" y="223" text-anchor="middle">Vareoprettelse</text>
+
+    <rect x="410" y="208" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="460" y="223" text-anchor="middle">Ingrediens-tjek</text>
+
+    <rect x="530" y="208" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="580" y="223" text-anchor="middle">Opstartsskema</text>
+
+    <rect x="170" y="268" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="220" y="283" text-anchor="middle">Indkøbsordre</text>
+
+    <rect x="290" y="268" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="340" y="283" text-anchor="middle">Logistikpriser</text>
+
+    <rect x="650" y="268" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="700" y="283" text-anchor="middle">Forsendelse</text>
+
+    <rect x="290" y="328" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="340" y="343" text-anchor="middle">Konceptbrief</text>
+
+    <rect x="530" y="328" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="580" y="343" text-anchor="middle">Trykfiler</text>
+
+    <rect x="410" y="388" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="460" y="403" text-anchor="middle">Emballage-data</text>
+
+    <rect x="650" y="388" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="700" y="403" text-anchor="middle">Indberetning</text>
+  </g>
+
+  <!-- Arrows showing flow (same as figur 0.1) -->
+  <g stroke="#4a5568" stroke-width="1.2" fill="none" marker-end="url(#arrow3)">
+    <line x1="270" y1="159" x2="288" y2="159"/>
+    <line x1="390" y1="159" x2="528" y2="159"/>
+    <line x1="630" y1="159" x2="648" y2="159"/>
+    <line x1="220" y1="170" x2="220" y2="206"/>
+    <line x1="220" y1="230" x2="220" y2="266"/>
+    <line x1="340" y1="290" x2="340" y2="326"/>
+    <line x1="460" y1="350" x2="460" y2="386"/>
+  </g>
+
+  <!-- AI BOBBLES — placed where humans wait for information -->
+  <g>
+    <!-- AI on prisberegning -->
+    <ellipse cx="580" cy="180" rx="55" ry="22" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="580" y="178" text-anchor="middle" font-size="9" font-weight="700" fill="#5b21b6">AI</text>
+    <text x="580" y="190" text-anchor="middle" font-size="8" fill="#5b21b6">prisberegner-app</text>
+
+    <!-- AI on ingredient check -->
+    <ellipse cx="460" cy="240" rx="60" ry="22" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="460" y="238" text-anchor="middle" font-size="9" font-weight="700" fill="#5b21b6">AI</text>
+    <text x="460" y="250" text-anchor="middle" font-size="8" fill="#5b21b6">INCI-verifikation</text>
+
+    <!-- AI on claims/symbols -->
+    <ellipse cx="580" cy="240" rx="55" ry="22" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="580" y="238" text-anchor="middle" font-size="9" font-weight="700" fill="#5b21b6">AI</text>
+    <text x="580" y="250" text-anchor="middle" font-size="8" fill="#5b21b6">symbol-tjek</text>
+
+    <!-- AI on logistik -->
+    <ellipse cx="340" cy="300" rx="55" ry="22" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="340" y="298" text-anchor="middle" font-size="9" font-weight="700" fill="#5b21b6">AI</text>
+    <text x="340" y="310" text-anchor="middle" font-size="8" fill="#5b21b6">brugsanvisning-forslag</text>
+
+    <!-- AI on design -->
+    <ellipse cx="580" cy="360" rx="55" ry="22" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="580" y="358" text-anchor="middle" font-size="9" font-weight="700" fill="#5b21b6">AI</text>
+    <text x="580" y="370" text-anchor="middle" font-size="8" fill="#5b21b6">claim-forslag</text>
+
+    <!-- AI on compliance/EPR -->
+    <ellipse cx="460" cy="420" rx="55" ry="22" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="460" y="418" text-anchor="middle" font-size="9" font-weight="700" fill="#5b21b6">AI</text>
+    <text x="460" y="430" text-anchor="middle" font-size="8" fill="#5b21b6">EPR-beregning</text>
+
+    <!-- AI Dashboard - bigger one over all -->
+    <ellipse cx="780" cy="240" rx="70" ry="28" fill="url(#aiGlow)" stroke="#7c3aed" stroke-width="2"/>
+    <text x="780" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">AI Dashboard</text>
+    <text x="780" y="248" text-anchor="middle" font-size="8" fill="#5b21b6">samlet overblik</text>
+    <text x="780" y="258" text-anchor="middle" font-size="8" fill="#5b21b6">på tværs af roller</text>
+  </g>
+
+  <!-- Key insight box -->
+  <g>
+    <rect x="170" y="455" width="560" height="55" rx="6" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="450" y="475" text-anchor="middle" font-size="11" font-weight="600" fill="#581c87">
+      AI-boblerne erstatter ikke folk. De erstatter ventetid, fejltjek og det administrative arbejde
+    </text>
+    <text x="450" y="490" text-anchor="middle" font-size="11" fill="#581c87">
+      der sad mellem de steder, hvor folk faktisk tog beslutninger.
+    </text>
+    <text x="450" y="505" text-anchor="middle" font-size="10" font-style="italic" fill="#7c3aed">
+      "Find steder hvor mennesker venter på information, og læg AI ind netop der."
+    </text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="540" text-anchor="middle" font-size="10" fill="#a0aec0">
+    Strukturel illustration — AI-bobler vises som lilla ovaler. Det underliggende procesflow er identisk med figur 0.1.
+  </text>
+</svg>

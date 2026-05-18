@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Modenhedstest · Digital Transformation i Praksis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #243357;
+    --cream: #f5f0e8;
+    --cream-dark: #ede7d9;
+    --brick: #c4623a;
+    --brick-dark: #a84e2a;
+    --text: #1a2744;
+    --text-muted: #5a6478;
+    --text-light: #8a95a8;
+    --white: #ffffff;
+    --border: #d5cdb8;
+    --gold: #b8893a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.55;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--white);
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 80px -30px rgba(26, 39, 68, 0.18);
+    overflow: hidden;
+  }
+
+  /* Header band */
+  .band {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 14px 32px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .band-left { color: var(--cream); opacity: 0.9; }
+  .band-right { color: var(--brick); font-weight: 500; font-style: normal; font-size: 13px; }
+
+  .header {
+    padding: 48px 32px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--cream) 0%, var(--white) 100%);
+  }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brick);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4.5vw, 40px);
+    line-height: 1.15;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    padding: 0 32px;
+    margin-top: 32px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--cream-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-bar {
+    position: absolute;
+    inset: 0 100% 0 0;
+    background: var(--brick);
+    transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Question screen */
+  .screen { padding: 40px 32px 48px; }
+  .screen.hidden { display: none; }
+
+  .q-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--brick);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: -20px;
+  }
+
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3.2vw, 28px);
+    line-height: 1.3;
+    color: var(--navy);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .q-context {
+    font-size: 15px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 32px;
+    max-width: 540px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--text);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .option:hover {
+    border-color: var(--brick);
+    background: var(--cream);
+    transform: translateX(2px);
+  }
+
+  .option-letter {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .option:hover .option-letter {
+    background: var(--brick);
+    border-color: var(--brick);
+    color: var(--white);
+  }
+
+  .option-text { flex: 1; padding-top: 2px; }
+
+  /* Result screen */
+  .result-level {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 0 32px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .level-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--brick);
+    font-weight: 600;
+  }
+
+  .level-info { flex: 1; }
+
+  .level-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .level-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--navy);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .level-tag {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Ladder visualization */
+  .ladder {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 36px;
+  }
+  .rung {
+    height: 6px;
+    background: var(--cream-dark);
+    position: relative;
+  }
+  .rung.active { background: var(--brick); }
+  .rung.current {
+    background: var(--brick);
+    height: 12px;
+    margin-top: -3px;
+  }
+  .rung-label {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 500;
+  }
+  .rung.current .rung-label { color: var(--brick); font-weight: 700; }
+
+  .summary {
+    background: var(--cream);
+    padding: 24px;
+    margin-top: 16px;
+    border-left: 3px solid var(--brick);
+  }
+  .summary p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .summary p:last-child { margin-bottom: 0; }
+  .summary strong { color: var(--navy); font-weight: 600; }
+
+  /* Recommendations */
+  .recs {
+    margin-top: 40px;
+  }
+
+  .recs-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .recs-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  .chapter-card {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .chapter-card:last-child { border-bottom: none; }
+
+  .chap-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    color: var(--brick);
+    font-weight: 600;
+    line-height: 1;
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  .chap-info { flex: 1; }
+
+  .chap-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .chap-why {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .chap-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brick);
+    font-weight: 600;
+    margin-top: 6px;
+    padding: 2px 8px;
+    background: rgba(196, 98, 58, 0.08);
+    border-radius: 2px;
+  }
+  .chap-tag.gratis { color: var(--gold); background: rgba(184, 137, 58, 0.1); }
+
+  /* CTA */
+  .cta {
+    margin-top: 40px;
+    padding: 28px;
+    background: var(--navy);
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--cream);
+  }
+
+  .cta-text {
+    font-size: 14px;
+    color: var(--cream-dark);
+    opacity: 0.85;
+    margin-bottom: 20px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary {
+    background: var(--brick);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--brick-dark); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--cream);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  .restart {
+    text-align: center;
+    margin-top: 28px;
+    padding-bottom: 8px;
+  }
+  .restart button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .restart button:hover { color: var(--brick); }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    body { padding: 12px; }
+    .header { padding: 32px 20px 24px; }
+    .screen { padding: 28px 20px 32px; }
+    .progress-wrap { padding: 0 20px; }
+    .level-number { font-size: 72px; }
+    .level-name { font-size: 24px; }
+    .chap-num { font-size: 30px; width: 48px; }
+    .band { padding: 10px 20px; font-size: 12px; }
+    .ladder { gap: 4px; }
+  }
+
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .screen:not(.hidden) > * {
+    animation: fadeIn 0.4s ease forwards;
+  }
+  .screen:not(.hidden) > *:nth-child(2) { animation-delay: 0.05s; }
+  .screen:not(.hidden) > *:nth-child(3) { animation-delay: 0.1s; }
+  .screen:not(.hidden) > *:nth-child(4) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="band">
+    <span class="band-left">Digital Transformation i Praksis</span>
+    <span class="band-right">Kapitel 02 · Modenhedstest</span>
+  </div>
+
+  <div class="header">
+    <div class="eyebrow">AI-Modenhedstest · Teaser</div>
+    <h1 class="title">Hvor moden er din virksomhed med AI?</h1>
+    <p class="subtitle">Tre spørgsmål. To minutter. Du får din placering på modenhedsstigen og tre kapitler at starte med.</p>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-meta">
+      <span id="progressLabel">Spørgsmål 1 af 3</span>
+      <span id="progressPct">0% gennemført</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="screen" id="screen-1">
+    <div class="q-number">01</div>
+    <div class="q-text">Hvordan forholder ledelsen sig til AI?</div>
+    <div class="q-context">Tænk på den seneste ledelsesbeslutning hvor AI var på agendaen — eller manglen på samme.</div>
+    <div class="options" data-q="1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="screen hidden" id="screen-2">
+    <div class="q-number">02</div>
+    <div class="q-text">Hvor godt forstår I jeres egne processer?</div>
+    <div class="q-context">Mange virksomheder bruger AI til mails og tekst, men har aldrig systematisk kortlagt deres kerneprocesser.</div>
+    <div class="options" data-q="2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="screen hidden" id="screen-3">
+    <div class="q-number">03</div>
+    <div class="q-text">Hvor langt er I med data og integration?</div>
+    <div class="q-context">AI er kun så god som de data og systemer, den har adgang til.</div>
+    <div class="options" data-q="3"></div>
+  </div>
+
+  <!-- Result -->
+  <div class="screen hidden" id="screen-result">
+    <div class="eyebrow" style="margin-bottom: 8px;">Dit resultat</div>
+
+    <div class="result-level">
+      <div class="level-number" id="resultNum">3</div>
+      <div class="level-info">
+        <div class="level-label">Niveau</div>
+        <div class="level-name" id="resultName">Bevidst</div>
+        <div class="level-tag" id="resultTag">På vej over kløften</div>
+      </div>
+    </div>
+
+    <div class="ladder" id="ladder"></div>
+
+    <div class="summary" id="resultSummary"></div>
+
+    <div class="recs">
+      <div class="recs-heading">Tre kapitler at starte med</div>
+      <div class="recs-sub">Anbefalet baseret på dit svar — i den rækkefølge der giver mest mening for dig lige nu.</div>
+      <div id="recsList"></div>
+    </div>
+
+    <div class="cta">
+      <div class="cta-title">Vil du have den fulde version?</div>
+      <div class="cta-text">8 spørgsmål, 8 dimensioner, en radar-graf og en handlingsplan. Designet til at tage i plenum med ledelsen i 15-20 minutter. Inkluderet for abonnenter.</div>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary">Bliv abonnent — 29 kr./md.</a>
+        <a href="#" class="btn btn-secondary">Læs kapitel 02 først</a>
+      </div>
+    </div>
+
+    <div class="restart">
+      <button onclick="restart()">Start forfra</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ───────────────────────────────────────────────────────────
+// Data: questions, levels, chapter recommendations
+// ───────────────────────────────────────────────────────────
+
+const QUESTIONS = {
+  1: [
+    { score: 1, text: "AI er ikke på dagsordenen. Måske til en eftertanke." },
+    { score: 2, text: "Vi har talt om det. Folk eksperimenterer på egen hånd." },
+    { score: 3, text: "Ledelsen har prioriteret AI og afsat budget — første initiativer er valgt." },
+    { score: 4, text: "AI er en del af strategien, og resultaterne måles." },
+    { score: 5, text: "AI er infrastruktur. Vi udvikler agenter og automatiserede flows." }
+  ],
+  2: [
+    { score: 1, text: "Vores processer er ikke kortlagt. Tingene fungerer, fordi folk ved hvordan de fungerer." },
+    { score: 2, text: "Nogle processer er beskrevet, men ikke konsekvent. Mange ting bor i hovederne." },
+    { score: 3, text: "Vi har kortlagt vores kerneprocesser systematisk og ved hvor flaskehalsene er." },
+    { score: 4, text: "Processerne er kortlagt, måles, og vi har identificeret konkrete AI-use-cases." },
+    { score: 5, text: "Processerne er kortlagt, automatiseret hvor det giver mening, og kontinuerligt forbedret." }
+  ],
+  3: [
+    { score: 1, text: "Data ligger spredt i Excel, mails og siloede systemer. Manuelle udtræk." },
+    { score: 2, text: "Data er i systemer, men de taler ikke sammen. Vi laver dashboards manuelt." },
+    { score: 3, text: "Vores systemer integrerer på de vigtigste områder. Single source of truth er på vej." },
+    { score: 4, text: "Data er integreret, og vi har RAG-pipelines på vores egne dokumenter." },
+    { score: 5, text: "Data er fundamentet. AI har real-time adgang via API'er, embeddings og MCP." }
+  ]
+};
+
+const LEVELS = [
+  { num: 1, name: "Passiv", tag: "Ingen aktiv strategi",
+    summary: "<p><strong>Du er på niveau 1.</strong> AI er ikke en del af jeres aktive strategi. Måske bruges Copilot eller ChatGPT til mails og tekst, men der er ingen systematisk tilgang.</p><p>Det er det almindeligste sted at være — og det er <em>ikke</em> et dårligt sted at starte. Det er et udmærket udgangspunkt, fordi der ikke er gamle vaner at brække ned. Det vigtigste skridt nu er at få ledelsen til at se AI som mere end et tekstværktøj.</p>" },
+  { num: 2, name: "Fragmenteret", tag: "Eksperimenter uden retning",
+    summary: "<p><strong>Du er på niveau 2.</strong> Enkelte i organisationen eksperimenterer, men det sker uden samlet retning. Ledelsen ved det knap. Værdien forbliver lokal og forsvinder, når enkeltpersoner skifter rolle.</p><p>Det er den farligste position, fordi den føles som progress. Reelt skaber den siloer og skygge-IT. Den vigtigste opgave nu er at gøre eksperimenterne synlige for ledelsen og lave et samlet beslutningsgrundlag.</p>" },
+  { num: 3, name: "Bevidst", tag: "På vej over kløften",
+    summary: "<p><strong>Du er på niveau 3.</strong> Ledelsen har taget et bevidst valg om AI. Budget er allokeret, processer er kortlagt, og første use cases er udvalgt. Det er præcis dér, det her bogprojekt selv står lige nu.</p><p>Kløften ligger bag dig. Foran ligger den hårde del — at flytte fra valg til implementering, og fra implementering til driftsmodne værktøjer.</p>" },
+  { num: 4, name: "Integreret", tag: "AI som infrastruktur",
+    summary: "<p><strong>Du er på niveau 4.</strong> RAG er i produktion, modeller er fine-tunede til jeres domæne, og ROI måles. AI er holdt op med at være et eksperiment — det er en del af jeres infrastruktur.</p><p>De fleste danske virksomheder kommer aldrig hertil. Hvis du er her, er du i en lille gruppe. De næste skridt handler om at gøre AI <em>pålideligt</em> — governance, monitorering, og evnen til at retracke når en model performer dårligt.</p>" },
+  { num: 5, name: "Autonom", tag: "Agenter med human-in-the-loop",
+    summary: "<p><strong>Du er på niveau 5.</strong> AI-agenter eksekverer flows, laver forecast og tager beslutninger med mennesket i loopet. I bygger ikke kun AI ind i processer — I designer processer der er AI-native fra start.</p><p>Det er den horisont, det her bogprojekt arbejder hen imod. Hvis du allerede er her, er det denne bog, der formentlig får mest ud af <em>dig</em> — du er meget velkommen til at sende erfaringer, jeg kan dele med læsere længere bagud i kæden.</p>" }
+];
+
+// Chapter recommendations indexed by level (1-5)
+// Each level has 3 chapter recommendations
+const RECOMMENDATIONS = {
+  1: [
+    { num: 1, title: "Paradokset alle kender, men ingen taler om", why: "Forstå hvorfor adgang til AI ikke er det samme som modenhed — og hvorfor 90% aldrig krydser kløften.", access: "gratis" },
+    { num: 2, title: "Kortlæg din virkelighed", why: "Du læser den lige nu. Workflow-dekompositionen er det første konkrete skridt.", access: "gratis" },
+    { num: 3, title: "Fra Excel til webapp på én eftermiddag", why: "Det første tekniske kapitel — viser at du ikke behøver et stort projekt for at komme i gang.", access: "paywall" }
+  ],
+  2: [
+    { num: 1, title: "Paradokset alle kender, men ingen taler om", why: "Få sproget til at forklare ledelsen forskellen på 'vi bruger AI' og 'vi har AI i infrastrukturen'.", access: "gratis" },
+    { num: 3, title: "Fra Excel til webapp på én eftermiddag", why: "Viser hvordan en enkelt prisberegner blev til et værktøj, hele teamet kan dele.", access: "paywall" },
+    { num: 7, title: "Byg altid en udvej for data", why: "Når enkeltpersoners eksperimenter skal blive til noget delbart, er datastruktur det vigtigste.", access: "paywall" }
+  ],
+  3: [
+    { num: 3, title: "Fra Excel til webapp på én eftermiddag", why: "Det konkrete håndværk når strategien er på plads — fra idé til driftsmodent værktøj.", access: "paywall" },
+    { num: 9, title: "Integration uden API — og senere med", why: "Det næste skridt efter første værktøj: hvordan binder man dem sammen uden et stort it-projekt?", access: "paywall" },
+    { num: 4, title: "Compliance er ikke et bilag — det er infrastruktur", why: "Når AI bliver alvor, bliver compliance også. Spar dig selv for ubehagelige overraskelser.", access: "paywall" }
+  ],
+  4: [
+    { num: 9, title: "Integration uden API — og senere med", why: "Avancerede integrationer mellem systemer, og hvor RAG passer ind.", access: "paywall" },
+    { num: 11, title: "Kontrakten som adfærdsdesign", why: "Når AI er i produktion, bliver leverandør- og kunderelationer det næste lag at digitalisere.", access: "paywall" },
+    { num: 10, title: "At bygge til lovgivning der ikke er vedtaget endnu", why: "EU AI Act, DPP, EPR — at bygge til kommende krav i stedet for at retrofitte dem.", access: "paywall" }
+  ],
+  5: [
+    { num: 11, title: "Kontrakten som adfærdsdesign", why: "Hvordan strategi og governance ændrer sig, når agenter handler autonomt.", access: "paywall" },
+    { num: 12, title: "Det forkerte spørgsmål", why: "Den eksistentielle del — hvad spørger vi os selv om, når AI ikke længere er det vanskelige?", access: "paywall" },
+    { num: 10, title: "At bygge til lovgivning der ikke er vedtaget endnu", why: "Hvis du er på niveau 5, er du formentlig dér, hvor regulering rammer dig først.", access: "paywall" }
+  ]
+};
+
+// ───────────────────────────────────────────────────────────
+// Logic
+// ───────────────────────────────────────────────────────────
+
+const state = {
+  current: 1,
+  answers: {}
+};
+
+function renderQuestion(q) {
+  const wrap = document.querySelector(`[data-q="${q}"]`);
+  wrap.innerHTML = '';
+  QUESTIONS[q].forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `
+      <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
+      <div class="option-text">${opt.text}</div>
+    `;
+    btn.onclick = () => answer(q, opt.score);
+    wrap.appendChild(btn);
+  });
+}
+
+function updateProgress() {
+  const total = 3;
+  const done = Object.keys(state.answers).length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressBar').style.right = `${100 - pct}%`;
+  
+  if (state.current <= total) {
+    document.getElementById('progressLabel').textContent = `Spørgsmål ${state.current} af ${total}`;
+    document.getElementById('progressPct').textContent = `${Math.round(((state.current - 1) / total) * 100)}% gennemført`;
+  } else {
+    document.getElementById('progressLabel').textContent = `Færdig`;
+    document.getElementById('progressPct').textContent = `100% gennemført`;
+  }
+}
+
+function answer(q, score) {
+  state.answers[q] = score;
+  if (q < 3) {
+    state.current = q + 1;
+    showScreen(q + 1);
+  } else {
+    state.current = 4;
+    showResult();
+  }
+}
+
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById(`screen-${n}`).classList.remove('hidden');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showResult() {
+  const scores = Object.values(state.answers);
+  const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+  // Round to nearest level (1-5)
+  const level = Math.max(1, Math.min(5, Math.round(avg)));
+
+  const lvl = LEVELS[level - 1];
+  document.getElementById('resultNum').textContent = lvl.num;
+  document.getElementById('resultName').textContent = lvl.name;
+  document.getElementById('resultTag').textContent = lvl.tag;
+  document.getElementById('resultSummary').innerHTML = lvl.summary;
+
+  // Ladder visualization
+  const labels = ['Passiv', 'Fragmenteret', 'Bevidst', 'Integreret', 'Autonom'];
+  const ladder = document.getElementById('ladder');
+  ladder.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const rung = document.createElement('div');
+    rung.className = 'rung';
+    if (i < level) rung.classList.add('active');
+    if (i === level) rung.classList.add('current');
+    rung.innerHTML = `<div class="rung-label">${labels[i-1]}</div>`;
+    ladder.appendChild(rung);
+  }
+
+  // Recommendations
+  const recsList = document.getElementById('recsList');
+  recsList.innerHTML = '';
+  RECOMMENDATIONS[level].forEach(rec => {
+    const card = document.createElement('div');
+    card.className = 'chapter-card';
+    const tagText = rec.access === 'gratis' ? 'Gratis' : 'Abonnement';
+    const tagClass = rec.access === 'gratis' ? 'gratis' : '';
+    card.innerHTML = `
+      <div class="chap-num">${String(rec.num).padStart(2, '0')}</div>
+      <div class="chap-info">
+        <div class="chap-title">${rec.title}</div>
+        <div class="chap-why">${rec.why}</div>
+        <span class="chap-tag ${tagClass}">${tagText}</span>
+      </div>
+    `;
+    recsList.appendChild(card);
+  });
+
+  document.getElementById('progressWrap').style.display = 'none';
+  showScreen('result');
+}
+
+function restart() {
+  state.current = 1;
+  state.answers = {};
+  document.getElementById('progressWrap').style.display = '';
+  showScreen(1);
+}
+
+// Init
+renderQuestion(1);
+renderQuestion(2);
+renderQuestion(3);
+updateProgress();
+</script>
+
+</body>
+</html>

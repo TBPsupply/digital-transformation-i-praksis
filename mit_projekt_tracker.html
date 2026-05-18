@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mit Projekt — Digital Transformation i Praksis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a2744;
+  --navy-light: #243357;
+  --navy-mid: #2e4070;
+  --cream: #f5f0e8;
+  --cream-dark: #ede7d9;
+  --brick: #c4623a;
+  --brick-dark: #a84e2a;
+  --text: #1a2744;
+  --muted: #5a6478;
+  --light: #8a95a8;
+  --white: #fff;
+  --green: #2d7a5f;
+  --green-light: #e8f5f0;
+  --border: rgba(26,39,68,0.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
+
+/* ── LOGIN SCREEN ── */
+#login-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:var(--navy);padding:20px;
+}
+.login-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:48px 44px;
+  max-width:400px;width:100%;text-align:center;
+}
+.login-logo{
+  font-family:'Playfair Display',serif;
+  font-size:13px;color:rgba(245,240,232,0.4);
+  letter-spacing:0.06em;margin-bottom:32px;
+}
+.login-title{
+  font-family:'Playfair Display',serif;
+  font-size:26px;color:var(--cream);
+  margin-bottom:8px;line-height:1.25;
+}
+.login-sub{
+  font-size:13px;color:rgba(245,240,232,0.45);
+  font-weight:300;line-height:1.6;margin-bottom:32px;
+}
+.login-input{
+  width:100%;background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;padding:13px 16px;
+  font-size:14px;color:var(--cream);
+  font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color 0.2s;margin-bottom:10px;
+}
+.login-input::placeholder{color:rgba(245,240,232,0.3);}
+.login-input:focus{border-color:rgba(196,98,58,0.6);}
+.login-btn{
+  width:100%;background:var(--brick);color:#fff;
+  border:none;border-radius:8px;padding:14px;
+  font-size:14px;font-weight:500;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  transition:background 0.2s;margin-top:4px;
+}
+.login-btn:hover{background:var(--brick-dark);}
+.login-note{
+  font-size:11px;color:rgba(245,240,232,0.25);
+  margin-top:20px;line-height:1.5;
+}
+.login-error{
+  font-size:12px;color:#e8956e;
+  margin-top:8px;display:none;
+}
+
+/* ── APP LAYOUT ── */
+#app{display:none;min-height:100vh;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--navy);padding:0 32px;
+  display:flex;align-items:center;
+  justify-content:space-between;height:56px;
+  position:sticky;top:0;z-index:100;
+}
+.topbar-logo{
+  font-family:'Playfair Display',serif;
+  font-size:14px;color:var(--cream);opacity:0.85;
+}
+.topbar-right{display:flex;align-items:center;gap:20px;}
+.topbar-user{
+  font-size:13px;color:rgba(245,240,232,0.5);font-weight:300;
+}
+.topbar-logout{
+  font-size:12px;color:rgba(245,240,232,0.35);
+  background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  text-decoration:underline;
+  transition:color 0.2s;
+}
+.topbar-logout:hover{color:rgba(245,240,232,0.6);}
+
+/* ── MAIN LAYOUT ── */
+.app-layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px);}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  background:var(--navy-light);
+  padding:28px 0;border-right:1px solid rgba(255,255,255,0.06);
+}
+.sidebar-section-label{
+  font-size:10px;font-weight:500;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(245,240,232,0.3);
+  padding:0 24px;margin-bottom:10px;margin-top:20px;
+}
+.sidebar-section-label:first-child{margin-top:0;}
+.sidebar-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 24px;cursor:pointer;
+  transition:background 0.15s;position:relative;
+  border:none;background:none;width:100%;text-align:left;
+  font-family:'DM Sans',sans-serif;
+}
+.sidebar-item:hover{background:rgba(255,255,255,0.04);}
+.sidebar-item.active{background:rgba(196,98,58,0.12);}
+.sidebar-item.active::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:var(--brick);border-radius:0 2px 2px 0;
+}
+.sidebar-icon{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+  background:rgba(255,255,255,0.06);
+}
+.sidebar-item.active .sidebar-icon{background:rgba(196,98,58,0.2);}
+.sidebar-text{font-size:13px;color:rgba(245,240,232,0.6);font-weight:400;}
+.sidebar-item.active .sidebar-text{color:var(--cream);font-weight:500;}
+.sidebar-badge{
+  margin-left:auto;font-size:10px;font-weight:600;
+  background:var(--brick);color:#fff;
+  border-radius:10px;padding:2px 7px;
+}
+
+/* ── MAIN CONTENT ── */
+.main-content{padding:36px 40px;overflow-y:auto;}
+
+/* ── PAGE HEADER ── */
+.page-header{margin-bottom:32px;}
+.page-eyebrow{
+  font-size:11px;font-weight:500;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--brick);margin-bottom:8px;
+}
+.page-title{
+  font-family:'Playfair Display',serif;
+  font-size:30px;color:var(--navy);margin-bottom:6px;
+}
+.page-sub{font-size:14px;color:var(--muted);font-weight:300;line-height:1.6;}
+
+/* ── PROGRESS OVERVIEW ── */
+.progress-overview{
+  background:var(--navy);border-radius:12px;
+  padding:28px 32px;margin-bottom:28px;
+  display:flex;align-items:center;gap:40px;
+}
+.progress-label{
+  font-size:12px;color:rgba(245,240,232,0.4);
+  text-transform:uppercase;letter-spacing:0.1em;
+  margin-bottom:8px;
+}
+.progress-bar-outer{
+  flex:1;height:8px;background:rgba(255,255,255,0.1);
+  border-radius:4px;overflow:hidden;
+}
+.progress-bar-inner{
+  height:100%;background:var(--brick);
+  border-radius:4px;transition:width 0.6s ease;
+}
+.progress-pct{
+  font-family:'Playfair Display',serif;
+  font-size:32px;color:var(--cream);
+  min-width:60px;text-align:right;
+}
+.progress-pct span{font-size:16px;font-family:'DM Sans',sans-serif;opacity:0.5;}
+
+/* ── PHASE CARDS ── */
+.phases-grid{display:flex;flex-direction:column;gap:16px;}
+.phase-card{
+  background:var(--white);border-radius:12px;
+  border:1.5px solid var(--border);
+  overflow:hidden;transition:border-color 0.2s;
+}
+.phase-card:hover{border-color:rgba(196,98,58,0.3);}
+.phase-card.completed{border-color:rgba(45,122,95,0.3);}
+.phase-header{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 24px;cursor:pointer;
+  user-select:none;
+}
+.phase-num{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:15px;
+  background:var(--cream-dark);color:var(--muted);
+  flex-shrink:0;font-weight:700;transition:all 0.2s;
+}
+.phase-card.active .phase-num{background:var(--brick);color:#fff;}
+.phase-card.completed .phase-num{background:var(--green);color:#fff;}
+.phase-titles{flex:1;}
+.phase-title{
+  font-size:15px;font-weight:500;color:var(--navy);
+  margin-bottom:2px;
+}
+.phase-subtitle{font-size:12px;color:var(--light);font-weight:300;}
+.phase-status{
+  font-size:11px;font-weight:500;letter-spacing:0.06em;
+  text-transform:uppercase;padding:4px 10px;border-radius:20px;
+}
+.status-not-started{background:var(--cream-dark);color:var(--light);}
+.status-in-progress{background:rgba(196,98,58,0.1);color:var(--brick);}
+.status-completed{background:var(--green-light);color:var(--green);}
+.phase-chevron{
+  font-size:16px;color:var(--light);
+  transition:transform 0.25s;margin-left:8px;
+}
+.phase-card.open .phase-chevron{transform:rotate(90deg);}
+
+.phase-body{
+  display:none;border-top:1px solid var(--border);
+  padding:24px;
+}
+.phase-card.open .phase-body{display:block;}
+
+/* ── STEPS ── */
+.steps-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.step-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 16px;border-radius:8px;
+  background:var(--cream);border:1px solid transparent;
+  transition:border-color 0.2s;cursor:pointer;
+}
+.step-item:hover{border-color:rgba(196,98,58,0.2);}
+.step-item.step-done{
+  background:var(--green-light);
+  border-color:rgba(45,122,95,0.2);
+}
+.step-check{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--light);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;margin-top:1px;
+  background:transparent;
+}
+.step-item.step-done .step-check{
+  background:var(--green);border-color:var(--green);
+  color:#fff;font-size:11px;
+}
+.step-content{flex:1;}
+.step-title{font-size:13px;font-weight:500;color:var(--navy);margin-bottom:3px;}
+.step-item.step-done .step-title{color:var(--green);text-decoration:line-through;text-decoration-color:rgba(45,122,95,0.4);}
+.step-desc{font-size:12px;color:var(--muted);font-weight:300;line-height:1.5;}
+
+/* ── NOTES AREA ── */
+.notes-label{
+  font-size:11px;font-weight:500;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--light);margin-bottom:8px;
+}
+.notes-textarea{
+  width:100%;background:var(--cream);
+  border:1px solid var(--border);border-radius:8px;
+  padding:14px 16px;font-size:13px;
+  color:var(--text);font-family:'DM Sans',sans-serif;
+  font-weight:300;line-height:1.65;resize:vertical;
+  min-height:90px;outline:none;
+  transition:border-color 0.2s;
+}
+.notes-textarea:focus{border-color:rgba(196,98,58,0.4);}
+.notes-save-row{display:flex;justify-content:flex-end;margin-top:8px;}
+.notes-save-btn{
+  background:none;border:none;font-family:'DM Sans',sans-serif;
+  font-size:12px;color:var(--brick);cursor:pointer;
+  font-weight:500;opacity:0.7;transition:opacity 0.15s;
+}
+.notes-save-btn:hover{opacity:1;}
+.notes-saved-msg{
+  font-size:11px;color:var(--green);margin-top:4px;
+  text-align:right;display:none;
+}
+
+/* ── CANVAS BOARD ── */
+.canvas-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+  margin-bottom:28px;
+}
+.canvas-block{
+  background:var(--white);border-radius:10px;
+  border:1px solid var(--border);padding:20px;
+}
+.canvas-block-title{
+  font-size:12px;font-weight:500;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:12px;
+}
+.canvas-textarea{
+  width:100%;background:var(--cream);
+  border:1px solid var(--border);border-radius:6px;
+  padding:12px 14px;font-size:13px;
+  color:var(--text);font-family:'DM Sans',sans-serif;
+  font-weight:300;line-height:1.6;resize:vertical;
+  min-height:80px;outline:none;
+  transition:border-color 0.2s;
+}
+.canvas-textarea:focus{border-color:rgba(196,98,58,0.4);}
+.canvas-textarea::placeholder{color:rgba(26,39,68,0.25);}
+
+/* ── SAVE BAR ── */
+.save-bar{
+  position:fixed;bottom:0;left:260px;right:0;
+  background:var(--navy);border-top:1px solid rgba(255,255,255,0.08);
+  padding:14px 40px;display:flex;align-items:center;
+  justify-content:space-between;z-index:50;
+  transform:translateY(100%);transition:transform 0.3s;
+}
+.save-bar.visible{transform:translateY(0);}
+.save-bar-msg{font-size:13px;color:rgba(245,240,232,0.5);font-weight:300;}
+.save-bar-btn{
+  background:var(--brick);color:#fff;border:none;
+  border-radius:6px;padding:9px 22px;font-size:13px;
+  font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;
+}
+.save-bar-btn:hover{background:var(--brick-dark);}
+
+/* ── EMPTY STATE ── */
+.empty-page{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:80px 40px;text-align:center;
+  color:var(--muted);
+}
+.empty-icon{font-size:40px;margin-bottom:16px;opacity:0.4;}
+.empty-title{font-size:16px;font-weight:500;color:var(--navy);margin-bottom:6px;}
+.empty-sub{font-size:13px;font-weight:300;line-height:1.6;max-width:320px;}
+
+@media(max-width:720px){
+  .app-layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .save-bar{left:0;}
+  .canvas-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Digital Transformation i Praksis</div>
+    <div class="login-title">Mit Projekt</div>
+    <p class="login-sub">Log ind med den e-mail du brugte til at tilmelde dig bogen. Din fremgang gemmes lokalt på denne enhed.</p>
+    <input class="login-input" type="text" id="login-name" placeholder="Dit navn">
+    <input class="login-input" type="email" id="login-email" placeholder="Din e-mailadresse">
+    <input class="login-input" type="text" id="login-company" placeholder="Virksomhed (valgfri)">
+    <button class="login-btn" onclick="doLogin()">Åbn mit projekt →</button>
+    <div class="login-error" id="login-error">Udfyld venligst navn og e-mail.</div>
+    <p class="login-note">Dine data gemmes kun i din browser — ikke på en server. Du kan eksportere og nulstille til enhver tid.</p>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">Digital Transformation i Praksis — Mit Projekt</div>
+    <div class="topbar-right">
+      <div class="topbar-user" id="topbar-user"></div>
+      <button class="topbar-logout" onclick="doLogout()">Log ud</button>
+    </div>
+  </div>
+
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-section-label">Overblik</div>
+      <button class="sidebar-item active" data-page="dashboard" onclick="switchPage('dashboard',this)">
+        <div class="sidebar-icon">📊</div>
+        <span class="sidebar-text">Dashboard</span>
+      </button>
+
+      <div class="sidebar-section-label">Firetrinsmodellen</div>
+      <button class="sidebar-item" data-page="fase1" onclick="switchPage('fase1',this)">
+        <div class="sidebar-icon">🗺</div>
+        <span class="sidebar-text">1 · Kortlæg processer</span>
+      </button>
+      <button class="sidebar-item" data-page="fase2" onclick="switchPage('fase2',this)">
+        <div class="sidebar-icon">🔌</div>
+        <span class="sidebar-text">2 · Vurder API-adgang</span>
+      </button>
+      <button class="sidebar-item" data-page="fase3" onclick="switchPage('fase3',this)">
+        <div class="sidebar-icon">💡</div>
+        <span class="sidebar-text">3 · Identificer AI-muligheder</span>
+      </button>
+      <button class="sidebar-item" data-page="fase4" onclick="switchPage('fase4',this)">
+        <div class="sidebar-icon">🛠</div>
+        <span class="sidebar-text">4 · Byg pre-test prototype</span>
+      </button>
+
+      <div class="sidebar-section-label">Projektet</div>
+      <button class="sidebar-item" data-page="canvas" onclick="switchPage('canvas',this)">
+        <div class="sidebar-icon">🎨</div>
+        <span class="sidebar-text">Projekt-canvas</span>
+      </button>
+      <button class="sidebar-item" data-page="noter" onclick="switchPage('noter',this)">
+        <div class="sidebar-icon">📝</div>
+        <span class="sidebar-text">Mine noter</span>
+      </button>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main-content" id="main-content">
+      <!-- injected by JS -->
+    </main>
+  </div>
+
+  <!-- SAVE BAR -->
+  <div class="save-bar" id="save-bar">
+    <span class="save-bar-msg">Du har ændringer der ikke er gemt endnu.</span>
+    <button class="save-bar-btn" onclick="saveAll()">Gem fremgang</button>
+  </div>
+
+</div>
+
+<script>
+// ── DATA MODEL ──
+const PHASES = [
+  {
+    id:'fase1', num:'1',
+    title:'Kortlæg processer',
+    subtitle:'Beskriv virkeligheden som den er i dag — ikke som du ønsker den var',
+    steps:[
+      {id:'f1s1', title:'Tegn dit nuværende systemlandskab', desc:'Hvilke systemer bruger I? Hvad taler med hvad? Brug PowerPoint eller papir.'},
+      {id:'f1s2', title:'Kortlæg 3-5 kerneprocesser', desc:'Fra produktoprettelse til faktura — hvem gør hvad, hvornår, i hvilke systemer?'},
+      {id:'f1s3', title:'Markér friktionspunkterne', desc:'Hvor bruger I uforholdsmæssig meget tid? Hvor sker der fejl eller manuel overflytning af data?'},
+      {id:'f1s4', title:'Identificér menneskelige vurderinger', desc:'Hvilke beslutninger kræver erfaring og faglig viden? Disse friholdes fra automatisering.'},
+    ],
+    notePlaceholder:'Beskriv din virksomheds kerneprocesser og de steder der skaber mest friktion...'
+  },
+  {
+    id:'fase2', num:'2',
+    title:'Vurder API-adgang',
+    subtitle:'Find ud af hvad du faktisk kan trække ud og skrive tilbage til dine systemer',
+    steps:[
+      {id:'f2s1', title:'Find API-dokumentationen til dit ERP', desc:'Business Central: docs.microsoft.com/bc-api. E-conomic: restapi.e-conomic.com. Notér versionsnummer.'},
+      {id:'f2s2', title:'Kortlæg hvilke data du kan læse', desc:'Ordrer, varenumre, kundedata, lagerstatus — hvad er tilgængeligt via GET-kald?'},
+      {id:'f2s3', title:'Kortlæg hvad du kan skrive tilbage', desc:'Kan du oprette ordrer, opdatere varekort, logge hændelser via API?'},
+      {id:'f2s4', title:'Test én API-forbindelse manuelt', desc:'Brug Postman eller et simpelt fetch-kald. Bekræft at du får data retur.'},
+      {id:'f2s5', title:'Dokumentér begrænsninger', desc:'Hvilke data er ikke tilgængelige? Hvad kræver en anden løsning eller eksport?'},
+    ],
+    notePlaceholder:'Notér hvilke systemer der har API-adgang, hvad du kan tilgå, og hvad der mangler...'
+  },
+  {
+    id:'fase3', num:'3',
+    title:'Identificér AI-muligheder',
+    subtitle:'Annotér dine processer med konkrete steder hvor AI giver mening',
+    steps:[
+      {id:'f3s1', title:'Gennemgå friktionspunkterne fra fase 1', desc:'Hvilke involverer gentagne beslutninger baseret på data der nu er tilgængelige via API?'},
+      {id:'f3s2', title:'Kategorisér mulighederne', desc:'Tekstgenerering / datakald / klassificering / opsummering — hvad er den konkrete AI-opgave?'},
+      {id:'f3s3', title:'Prioritér efter to kriterier', desc:'Størst tidsgevinst OG data allerede tilgængelige. Start i krydset.'},
+      {id:'f3s4', title:'Skriv én AI-mulighed som use case', desc:'Hvem bruger det? Hvad er input? Hvad er output? Hvad sker der hvis det fejler?'},
+    ],
+    notePlaceholder:'Beskriv de tre-fem AI-muligheder du har identificeret — rangeret efter prioritet...'
+  },
+  {
+    id:'fase4', num:'4',
+    title:'Byg pre-test prototype',
+    subtitle:'Første version baseret på data du kan tilgå i dag — mock data er tilladt',
+    steps:[
+      {id:'f4s1', title:'Vælg format for prototypen', desc:'HTML single-file / Claude Project / Power Automate flow — hvad kræver mindst infrastruktur?'},
+      {id:'f4s2', title:'Byg med mock data først', desc:'Bekræft at logikken virker inden du kobler rigtige data på. Det sparer tid.'},
+      {id:'f4s3', title:'Kobl API-data på', desc:'Erstat mock data med rigtige kald. Håndtér fejl og tomme resultater.'},
+      {id:'f4s4', title:'Test med én rigtig bruger', desc:'Lad den der kender processen bedst prøve det. Notér hvad der overraskede.'},
+      {id:'f4s5', title:'Klassificér outputtet', desc:'Kast / Videreudvikl / Validér med flere brugere / Giv til IT. Beslutningen er dit næste skridt.'},
+    ],
+    notePlaceholder:'Beskriv hvad du har bygget, hvad du lærte af testen, og hvad næste skridt er...'
+  }
+];
+
+const CANVAS_FIELDS = [
+  {id:'cv_problem', title:'Problem / friktion', placeholder:'Hvad er den konkrete udfordring du løser?'},
+  {id:'cv_data', title:'Tilgængelige data', placeholder:'Hvilke data har du adgang til via API eller eksport?'},
+  {id:'cv_tool', title:'Valgt AI-tilgang', placeholder:'RAG / Tekstgenerering / Klassificering / Automatisering...'},
+  {id:'cv_success', title:'Succeskriterium', placeholder:'Hvornår ved du at prototypen virker?'},
+  {id:'cv_risk', title:'Risici og begrænsninger', placeholder:'Hvad kan gå galt? Hvad er ikke tilgængeligt?'},
+  {id:'cv_next', title:'Næste skridt', placeholder:'Kast / Videreudvikl / Validér med flere / Giv til IT'},
+];
+
+// ── STATE ──
+let state = {
+  user: null,
+  steps: {},       // stepId -> bool
+  notes: {},       // faseId -> string
+  canvas: {},      // fieldId -> string
+  globalNotes: '', // free notes page
+};
+let dirty = false;
+
+// ── STORAGE ──
+function storageKey(){ return 'mitprojekt_' + (state.user?.email||'anon'); }
+function save(){
+  localStorage.setItem(storageKey(), JSON.stringify(state));
+  dirty = false;
+  document.getElementById('save-bar').classList.remove('visible');
+}
+function load(email){
+  const raw = localStorage.getItem('mitprojekt_' + email);
+  if(raw){ try{ return JSON.parse(raw); }catch(e){} }
+  return null;
+}
+
+function markDirty(){
+  dirty = true;
+  document.getElementById('save-bar').classList.add('visible');
+}
+function saveAll(){ save(); showToast('Gemt ✓'); }
+
+// ── LOGIN ──
+function doLogin(){
+  const name = document.getElementById('login-name').value.trim();
+  const email = document.getElementById('login-email').value.trim();
+  const company = document.getElementById('login-company').value.trim();
+  if(!name || !email || !email.includes('@')){
+    document.getElementById('login-error').style.display='block';
+    return;
+  }
+  state.user = {name, email, company};
+  const saved = load(email);
+  if(saved){
+    state.steps = saved.steps||{};
+    state.notes = saved.notes||{};
+    state.canvas = saved.canvas||{};
+    state.globalNotes = saved.globalNotes||'';
+    state.user = saved.user||state.user;
+  }
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('topbar-user').textContent = name + (company?' · '+company:'');
+  switchPage('dashboard', document.querySelector('[data-page="dashboard"]'));
+}
+
+function doLogout(){
+  save();
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+
+// ── PROGRESS ──
+function calcProgress(){
+  const allSteps = PHASES.flatMap(p=>p.steps);
+  const done = allSteps.filter(s=>state.steps[s.id]).length;
+  return Math.round((done/allSteps.length)*100);
+}
+function phaseProgress(phase){
+  const done = phase.steps.filter(s=>state.steps[s.id]).length;
+  return {done, total:phase.steps.length};
+}
+function phaseStatus(phase){
+  const {done,total}=phaseProgress(phase);
+  if(done===0) return {label:'Ikke startet',cls:'status-not-started'};
+  if(done===total) return {label:'Gennemført',cls:'status-completed'};
+  return {label:`${done}/${total} trin`,cls:'status-in-progress'};
+}
+
+// ── PAGES ──
+function switchPage(id, btn){
+  document.querySelectorAll('.sidebar-item').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const mc = document.getElementById('main-content');
+  if(id==='dashboard') mc.innerHTML=renderDashboard();
+  else if(id.startsWith('fase')) mc.innerHTML=renderPhase(PHASES.find(p=>p.id===id));
+  else if(id==='canvas') mc.innerHTML=renderCanvas();
+  else if(id==='noter') mc.innerHTML=renderNotes();
+  bindEvents(id);
+}
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const pct=calcProgress();
+  return `
+  <div class="page-header">
+    <div class="page-eyebrow">Mit Projekt</div>
+    <div class="page-title">God ${greeting()}, ${state.user.name.split(' ')[0]}</div>
+    <div class="page-sub">Her er status på din digitale transformation. Trin for trin.</div>
+  </div>
+
+  <div class="progress-overview">
+    <div>
+      <div class="progress-label">Samlet fremgang</div>
+      <div class="progress-bar-outer" style="width:220px">
+        <div class="progress-bar-inner" style="width:${pct}%"></div>
+      </div>
+    </div>
+    <div class="progress-pct">${pct}<span>%</span></div>
+  </div>
+
+  <div class="phases-grid">
+    ${PHASES.map(p=>{
+      const {done,total}=phaseProgress(p);
+      const st=phaseStatus(p);
+      const isComplete=done===total;
+      return `
+      <div class="phase-card${isComplete?' completed':''}" style="cursor:pointer" onclick="switchPage('${p.id}', document.querySelector('[data-page=${p.id}]'))">
+        <div class="phase-header" style="pointer-events:none">
+          <div class="phase-num">${p.num}</div>
+          <div class="phase-titles">
+            <div class="phase-title">${p.title}</div>
+            <div class="phase-subtitle">${done} af ${total} trin gennemført</div>
+          </div>
+          <div class="phase-status ${st.cls}">${st.label}</div>
+          <div class="phase-chevron">›</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ── PHASE PAGE ──
+function renderPhase(phase){
+  const st=phaseStatus(phase);
+  const isComplete=st.cls==='status-completed';
+  return `
+  <div class="page-header">
+    <div class="page-eyebrow">Trin ${phase.num} af 4</div>
+    <div class="page-title">${phase.title}</div>
+    <div class="page-sub">${phase.subtitle}</div>
+  </div>
+
+  <div class="phases-grid">
+    <div class="phase-card open${isComplete?' completed':''}">
+      <div class="phase-header" style="cursor:default">
+        <div class="phase-num" style="background:${isComplete?'var(--green)':'var(--brick)'};color:#fff">${phase.num}</div>
+        <div class="phase-titles">
+          <div class="phase-title">${phase.title}</div>
+        </div>
+        <div class="phase-status ${st.cls}">${st.label}</div>
+      </div>
+      <div class="phase-body">
+        <div class="steps-list">
+          ${phase.steps.map(s=>{
+            const done=!!state.steps[s.id];
+            return `
+            <div class="step-item${done?' step-done':''}" onclick="toggleStep('${s.id}')">
+              <div class="step-check">${done?'✓':''}</div>
+              <div class="step-content">
+                <div class="step-title">${s.title}</div>
+                <div class="step-desc">${s.desc}</div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div class="notes-label">Mine noter til dette trin</div>
+        <textarea class="notes-textarea" id="phase-notes-${phase.id}"
+          placeholder="${phase.notePlaceholder}"
+          onchange="markDirty()">${state.notes[phase.id]||''}</textarea>
+        <div class="notes-save-row">
+          <button class="notes-save-btn" onclick="savePhaseNote('${phase.id}')">Gem notat</button>
+        </div>
+        <div class="notes-saved-msg" id="saved-msg-${phase.id}">Gemt ✓</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── CANVAS ──
+function renderCanvas(){
+  return `
+  <div class="page-header">
+    <div class="page-eyebrow">Projektet</div>
+    <div class="page-title">Projekt-canvas</div>
+    <div class="page-sub">Definer dit AI-projekt på ét overblik. Baseret på firetrinsmodellens output.</div>
+  </div>
+  <div class="canvas-grid">
+    ${CANVAS_FIELDS.map(f=>`
+    <div class="canvas-block">
+      <div class="canvas-block-title">${f.title}</div>
+      <textarea class="canvas-textarea" id="${f.id}"
+        placeholder="${f.placeholder}"
+        onchange="markDirty()">${state.canvas[f.id]||''}</textarea>
+    </div>`).join('')}
+  </div>
+  <div style="text-align:right">
+    <button class="notes-save-btn" style="font-size:13px;padding:8px 0" onclick="saveCanvas()">Gem canvas</button>
+  </div>
+  <div class="notes-saved-msg" id="canvas-saved" style="display:none;text-align:right;margin-top:4px">Gemt ✓</div>`;
+}
+
+// ── NOTER ──
+function renderNotes(){
+  return `
+  <div class="page-header">
+    <div class="page-eyebrow">Projektet</div>
+    <div class="page-title">Mine noter</div>
+    <div class="page-sub">Et frit rum til tanker, idéer og observationer undervejs.</div>
+  </div>
+  <div class="phase-card open" style="border:none;box-shadow:none;background:var(--white)">
+    <div class="phase-body" style="border:none;padding:0">
+      <textarea class="notes-textarea" id="global-notes"
+        style="min-height:320px;font-size:14px;line-height:1.75"
+        placeholder="Notér tanker, beslutninger og observationer undervejs i din rejse..."
+        onchange="markDirty()">${state.globalNotes||''}</textarea>
+      <div class="notes-save-row" style="margin-top:10px">
+        <button class="notes-save-btn" style="font-size:13px" onclick="saveGlobalNotes()">Gem noter</button>
+      </div>
+      <div class="notes-saved-msg" id="global-saved">Gemt ✓</div>
+    </div>
+  </div>`;
+}
+
+// ── EVENTS ──
+function bindEvents(page){
+  // nothing extra needed — inline handlers
+}
+
+function toggleStep(id){
+  state.steps[id] = !state.steps[id];
+  markDirty();
+  // Re-render current page
+  const active = document.querySelector('.sidebar-item.active');
+  if(active) switchPage(active.dataset.page, active);
+}
+
+function savePhaseNote(phaseId){
+  const ta = document.getElementById('phase-notes-'+phaseId);
+  if(ta){ state.notes[phaseId]=ta.value; save(); }
+  const msg=document.getElementById('saved-msg-'+phaseId);
+  if(msg){msg.style.display='block';setTimeout(()=>msg.style.display='none',2000);}
+}
+
+function saveCanvas(){
+  CANVAS_FIELDS.forEach(f=>{
+    const el=document.getElementById(f.id);
+    if(el) state.canvas[f.id]=el.value;
+  });
+  save();
+  const msg=document.getElementById('canvas-saved');
+  if(msg){msg.style.display='block';setTimeout(()=>msg.style.display='none',2000);}
+}
+
+function saveGlobalNotes(){
+  const el=document.getElementById('global-notes');
+  if(el) state.globalNotes=el.value;
+  save();
+  const msg=document.getElementById('global-saved');
+  if(msg){msg.style.display='block';setTimeout(()=>msg.style.display='none',2000);}
+}
+
+function greeting(){
+  const h=new Date().getHours();
+  if(h<12) return 'morgen';
+  if(h<17) return 'eftermiddag';
+  return 'aften';
+}
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.textContent=msg;
+  Object.assign(t.style,{
+    position:'fixed',bottom:'72px',right:'32px',
+    background:'var(--green)',color:'#fff',
+    padding:'10px 20px',borderRadius:'6px',
+    fontSize:'13px',fontWeight:'500',
+    zIndex:'999',opacity:'0',transition:'opacity 0.3s'
+  });
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>{ t.style.opacity='1';
+    setTimeout(()=>{ t.style.opacity='0';
+      setTimeout(()=>t.remove(),300); },1800);
+  });
+}
+
+// Auto-save on page unload
+window.addEventListener('beforeunload', ()=>{ if(dirty) save(); });
+</script>
+</body>
+</html>

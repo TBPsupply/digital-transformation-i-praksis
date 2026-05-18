@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Modenhedstest — TBP Supply</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tbp-cream: #F5EBDE;
+    --tbp-navy: #0D2745;
+    --tbp-pink: #FBC9C3;
+    --tbp-blue: #B3E2EC;
+    --tbp-navy-light: #1a3a5c;
+    --gap-red: #c0392b;
+    --level-1: #d4c4b0;
+    --level-2: #e8b896;
+    --level-3: #fbc9c3;
+    --level-4: #8dd4e3;
+    --level-5: #0D2745;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--tbp-cream);
+    color: var(--tbp-navy);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ============ SHARED ============ */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  .hidden { display: none !important; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--tbp-navy);
+    color: var(--tbp-cream);
+  }
+  .btn-primary:hover { background: var(--tbp-navy-light); transform: translateY(-1px); }
+  .btn-secondary {
+    background: white;
+    color: var(--tbp-navy);
+    border: 2px solid var(--tbp-navy);
+  }
+  .btn-secondary:hover { background: var(--tbp-navy); color: var(--tbp-cream); }
+  .btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+  }
+
+  /* ============ INTRO SCREEN ============ */
+  .intro {
+    text-align: center;
+    padding: 4rem 1rem;
+    animation: fadeUp 0.5s ease-out;
+  }
+  .intro-badge {
+    display: inline-block;
+    background: var(--tbp-pink);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .intro h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .intro p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.7;
+    max-width: 520px;
+    margin: 0 auto 2rem;
+  }
+  .intro-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .intro-meta-item {
+    text-align: center;
+  }
+  .intro-meta-item .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--tbp-navy);
+  }
+  .intro-meta-item .label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+
+  /* ============ QUIZ ============ */
+  .quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .quiz-progress-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    opacity: 0.5;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .quiz-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(13,39,69,0.08);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--tbp-navy);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-dimension {
+    display: inline-block;
+    background: var(--tbp-blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .quiz-question {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+  }
+  .quiz-context {
+    font-size: 0.82rem;
+    opacity: 0.55;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .quiz-option:hover {
+    border-color: var(--tbp-blue);
+    transform: translateX(4px);
+  }
+  .quiz-option.selected {
+    border-color: var(--tbp-navy);
+    background: rgba(13,39,69,0.04);
+  }
+  .quiz-option-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(13,39,69,0.2);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .quiz-option.selected .quiz-option-radio {
+    border-color: var(--tbp-navy);
+    background: var(--tbp-navy);
+  }
+  .quiz-option.selected .quiz-option-radio::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+  .quiz-option-text {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  .quiz-option-level {
+    font-size: 0.6rem;
+    opacity: 0;
+    margin-top: 0.15rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .quiz-back {
+    font-size: 0.82rem;
+    color: var(--tbp-navy);
+    opacity: 0.5;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    padding: 0.5rem 0;
+  }
+  .quiz-back:hover { opacity: 1; }
+
+  /* ============ RESULTS ============ */
+  .results {
+    animation: fadeUp 0.5s ease-out;
+  }
+  .results-hero {
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+  }
+  .results-level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .results-level-badge .level-num {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .rl-1 { background: var(--level-1); color: var(--tbp-navy); }
+  .rl-2 { background: var(--level-2); color: var(--tbp-navy); }
+  .rl-3 { background: var(--level-3); color: var(--tbp-navy); }
+  .rl-4 { background: var(--level-4); color: var(--tbp-navy); }
+  .rl-5 { background: var(--level-5); color: var(--tbp-cream); }
+  .rl-5 .level-num { background: rgba(245,235,222,0.2); }
+
+  .results-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .results-desc {
+    font-size: 0.88rem;
+    opacity: 0.7;
+    line-height: 1.55;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Score breakdown */
+  .score-section {
+    margin-top: 2rem;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.4;
+    margin-bottom: 0.8rem;
+  }
+
+  .score-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.55rem;
+  }
+  .score-bar-label {
+    width: 170px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .score-bar-track {
+    flex: 1;
+    height: 22px;
+    background: rgba(13,39,69,0.06);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.8s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: white;
+    min-width: 30px;
+  }
+  .score-bar-value {
+    font-size: 0.78rem;
+    font-weight: 700;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Maturity ladder mini */
+  .ladder-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 2rem;
+    position: relative;
+  }
+  .ladder-step {
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .ladder-step .ls-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    width: 30px;
+    flex-shrink: 0;
+  }
+  .ladder-step .ls-name {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.72rem;
+  }
+  .ladder-step.current {
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(13,39,69,0.15);
+  }
+  .ladder-step.current::after {
+    content: '← I er her';
+    position: absolute;
+    right: -90px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gap-red);
+    white-space: nowrap;
+  }
+  .ladder-step.dimmed { opacity: 0.35; }
+
+  .ls-1 { background: var(--level-1); }
+  .ls-2 { background: var(--level-2); }
+  .ls-3 { background: var(--level-3); }
+  .ls-4 { background: var(--level-4); }
+  .ls-5 { background: var(--level-5); color: var(--tbp-cream); }
+
+  .ladder-gap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 24px;
+  }
+  .ladder-gap-line {
+    width: 100%;
+    border-top: 2px dashed var(--gap-red);
+    position: absolute;
+  }
+  .ladder-gap-badge {
+    position: relative;
+    z-index: 1;
+    background: var(--gap-red);
+    color: white;
+    padding: 0.15rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Book recommendations */
+  .book-section {
+    margin-top: 2.5rem;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(13,39,69,0.06);
+  }
+  .book-section h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.3rem;
+  }
+  .book-section .book-intro {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+  }
+  .book-chapter {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(13,39,69,0.06);
+  }
+  .book-chapter:last-child { border-bottom: none; }
+  .book-ch-num {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--tbp-blue);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .book-ch-num.priority {
+    background: var(--tbp-navy);
+    color: var(--tbp-cream);
+  }
+  .book-ch-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .book-ch-desc {
+    font-size: 0.72rem;
+    opacity: 0.6;
+    line-height: 1.4;
+    margin-top: 0.1rem;
+  }
+  .book-ch-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tag-start { background: var(--tbp-pink); color: var(--tbp-navy); }
+  .tag-next { background: var(--tbp-blue); color: var(--tbp-navy); }
+  .tag-later { background: rgba(13,39,69,0.06); color: var(--tbp-navy); opacity: 0.6; }
+
+  /* Actions */
+  .results-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .btn, .results-actions { display: none !important; }
+    .ladder-step.current::after { color: black; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .score-bar-label { width: 110px; font-size: 0.7rem; }
+    .ladder-step.current::after { display: none; }
+    .intro-meta { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ========== INTRO ========== -->
+  <div id="intro" class="intro">
+    <div class="intro-badge">AI-Modenhedstest</div>
+    <h1>Hvor AI-moden er jeres virksomhed — egentlig?</h1>
+    <p>Denne test placerer jeres organisation på AI-modenhedsskalaen fra 1 (Passiv) til 5 (Autonom). Besvares i fællesskab med ledelsen — diskutér jer frem til det mest ærlige svar.</p>
+    <div class="intro-meta">
+      <div class="intro-meta-item">
+        <div class="num">8</div>
+        <div class="label">Spørgsmål</div>
+      </div>
+      <div class="intro-meta-item">
+        <div class="num">~15</div>
+        <div class="label">Minutter</div>
+      </div>
+      <div class="intro-meta-item">
+        <div class="num">5</div>
+        <div class="label">Niveauer</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">Start testen →</button>
+  </div>
+
+  <!-- ========== QUIZ ========== -->
+  <div id="quiz" class="quiz hidden">
+    <div class="quiz-header">
+      <span class="quiz-progress-label" id="progressLabel">Spørgsmål 1 af 8</span>
+    </div>
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="progressFill" style="width: 12.5%"></div>
+    </div>
+
+    <div id="questionArea"></div>
+
+    <div class="quiz-nav">
+      <button class="quiz-back" id="backBtn" onclick="prevQuestion()">← Tilbage</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Næste →</button>
+    </div>
+  </div>
+
+  <!-- ========== RESULTS ========== -->
+  <div id="results" class="results hidden"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    dimension: "Strategi & Ledelse",
+    question: "Hvordan forholder ledelsen sig til AI?",
+    context: "Tænk på den seneste ledelsesbeslutning der involverede AI — eller manglen på samme.",
+    options: [
+      { text: "AI er ikke noget ledelsen har diskuteret formelt. Medarbejdere bruger måske ChatGPT, men det er op til den enkelte.", score: 1 },
+      { text: "Ledelsen er nysgerrig og har nævnt AI, men der er ingen formel strategi, roadmap eller dedikeret ansvarlig.", score: 2 },
+      { text: "Ledelsen har besluttet at AI er en prioritet. Der er udpeget en ansvarlig, og AI indgår i strategiske planer.", score: 3 },
+      { text: "AI er en fast del af virksomhedens strategi med klar governance, definerede mål og regelmæssig rapportering til ledelsen.", score: 4 },
+      { text: "AI-strategi er integreret i forretningsstrategien. Ledelsen træffer beslutninger baseret på AI-genererede indsigter og forecasts.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Budget & Ressourcer",
+    question: "Er der afsat dedikeret budget til AI-initiativer?",
+    context: "Budget siger alt om prioritering. Tal handler ikke bare om software — men også tid, kompetencer og infrastruktur.",
+    options: [
+      { text: "Nej — der bruges ikke penge på AI ud over de licenser vi allerede har (M365, ChatGPT-abonnementer o.l.).", score: 1 },
+      { text: "Enkelte medarbejdere har fået lov at bruge tid eller købe enkeltstående værktøjer, men ingen samlet pulje.", score: 2 },
+      { text: "Der er allokeret et specifikt budget til AI — om end beskedent. Vi ved hvad vi bruger og hvad vi forventer.", score: 3 },
+      { text: "Der er et dedikeret AI-budget med ROI-mål. Investeringer evalueres løbende og sammenlignes med andre initiativer.", score: 4 },
+      { text: "AI-budgettet er en integreret del af det samlede drifts- og udviklingsbudget med langsigtede investeringsplaner.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Procesforståelse",
+    question: "Har I kortlagt hvor AI faktisk kan flytte noget i jeres processer?",
+    context: "Mange virksomheder bruger AI til det letteste (mails, tekst) men har aldrig systematisk analyseret deres kerneprocesser.",
+    options: [
+      { text: "Nej. Folk bruger AI til det de selv finder ud af — primært tekstgenerering, opsummeringer og omskrivning af mails.", score: 1 },
+      { text: "Enkelte medarbejdere har identificeret AI-muligheder i deres eget domæne, men der mangler overblik og sammenhæng.", score: 2 },
+      { text: "Vi har kortlagt vores kerneprocesser og udvalgt specifikke use cases hvor AI kan skabe værdi.", score: 3 },
+      { text: "Processer er redesignet med AI som en integreret del. Vi har klare workflows for menneske-AI-samspil.", score: 4 },
+      { text: "AI-agenter indgår i autonome workflows og optimerer processer løbende baseret på data og resultater.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Data & Infrastruktur",
+    question: "Hvor modne er jeres data og tekniske infrastruktur ift. AI?",
+    context: "AI er kun så god som den data og de systemer den har adgang til. Tænk på kvalitet, tilgængelighed og struktur.",
+    options: [
+      { text: "Data er spredt i siloer — Excel, mails, SharePoint. Der er ingen struktureret datatilgang for AI.", score: 1 },
+      { text: "Noget data er centraliseret (f.eks. i ERP/CRM), men AI-værktøjer har ikke adgang til vores egne data.", score: 2 },
+      { text: "Vi har et overblik over vores datkilder og har påbegyndt at tilgængeliggøre data for AI-systemer.", score: 3 },
+      { text: "Vi har RAG-pipelines eller lignende der forbinder AI-modeller med vores egne data i produktion.", score: 4 },
+      { text: "Vores datainfrastruktur er AI-klar med vektordatabaser, embeddings, API'er og real-time datadeling.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Kompetencer & Kultur",
+    question: "Hvordan er medarbejdernes AI-kompetencer og holdning til AI?",
+    context: "Kultur spiser strategi til morgenmad. Selv den bedste AI-strategi fejler uden bred organisatorisk parathed.",
+    options: [
+      { text: "De fleste bruger ikke AI, eller kun sporadisk. Mange er usikre eller skeptiske. Ingen formel træning.", score: 1 },
+      { text: "Nogle entusiastiske 'early adopters' driver det hele. Resten venter, og der er ingen struktureret opkvalificering.", score: 2 },
+      { text: "Der er gennemført træning. Medarbejdere forstår mulighederne og begrænsningerne. Der er en positiv grundstemning.", score: 3 },
+      { text: "AI-kompetencer er bredt forankret. Teams eksperimenterer selvstændigt, og der er en kultur for deling af best practices.", score: 4 },
+      { text: "AI er 'second nature'. Medarbejdere designer egne prompts, workflows og agenter. Der er interne AI-champions.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Måling & ROI",
+    question: "Måler I effekten af jeres AI-initiativer?",
+    context: "Det man ikke måler, kan man ikke forbedre. Og det man ikke kan dokumentere, får man ikke budget til igen.",
+    options: [
+      { text: "Nej. Vi ved ikke hvad AI bidrager med — det er mest en fornemmelse af at 'det nok hjælper lidt'.", score: 1 },
+      { text: "Anekdotisk — 'Per sparer 30 minutter om ugen' — men ingen systematisk dokumentation.", score: 2 },
+      { text: "Vi har defineret KPI'er for vores AI use cases og tracker dem, om end måske endnu ikke perfekt.", score: 3 },
+      { text: "ROI måles struktureret og rapporteres til ledelsen. AI-investeringer evalueres som alle andre investeringer.", score: 4 },
+      { text: "AI-systemer leverer selv målinger og dashboards. Effekten af AI-agenter optimeres automatisk og løbende.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Integration & Automatisering",
+    question: "Hvor dybt er AI integreret i jeres eksisterende systemer?",
+    context: "Integration er broen mellem 'vi har et AI-værktøj' og 'AI er en del af vores infrastruktur'.",
+    options: [
+      { text: "AI bruges som selvstændige værktøjer — ChatGPT i browseren, Copilot i Word. Ingen forbindelse til egne systemer.", score: 1 },
+      { text: "Enkelte integrationer eksisterer — f.eks. Power Automate med et AI-trin — men det er begrænset og manuelt sat op.", score: 2 },
+      { text: "Vi har planlagt eller påbegyndt integrationer mellem AI og vores kerne­systemer (ERP, CRM, datavarehus).", score: 3 },
+      { text: "AI er integreret i produktionsmiljøet via API'er. Modeller trækker data fra vores systemer og leverer direkte output.", score: 4 },
+      { text: "AI-agenter handler autonomt på tværs af systemer — de henter data, træffer beslutninger og eksekverer handlinger.", score: 5 }
+    ]
+  },
+  {
+    dimension: "Governance & Ansvarlig AI",
+    question: "Har I retningslinjer for ansvarlig brug af AI?",
+    context: "Med EU AI Act og stigende regulering er governance ikke valgfrit. Og med agenter der handler autonomt, er det kritisk.",
+    options: [
+      { text: "Nej. Der er ingen retningslinjer, politikker eller aftaler om hvad medarbejdere må og ikke må med AI.", score: 1 },
+      { text: "Uformel forståelse — 'brug din sunde fornuft' — men intet nedfældet. Ingen har det formelle ansvar.", score: 2 },
+      { text: "Vi har en AI-politik der beskriver do's og don'ts. Der er taget stilling til databeskyttelse og GDPR-implikationer.", score: 3 },
+      { text: "Governance er formaliseret med klare roller, compliance-tjek, og der er overblik over alle AI-anvendelser i organisationen.", score: 4 },
+      { text: "Governance er dynamisk og integreret i AI-systemerne. Automatiseret overvågning, audit trails og løbende compliance.", score: 5 }
+    ]
+  }
+];
+
+const levelNames = ['', 'Passiv', 'Fragmenteret', 'Bevidst', 'Integreret', 'Autonom'];
+const levelDescs = [
+  '',
+  'I har ChatGPT og Copilot, men ingen strategi, ingen styring og ingen større effekt. AI-brug er tilfældig og individuel.',
+  'Enkelte medarbejdere eksperimenterer med AI, men indsatsen er fragmenteret. Ledelsen mangler overblik, og initiativer lever i siloer.',
+  'Ledelsen har prioriteret AI og allokeret budget. I har kortlagt processer og valgt use cases — men er endnu ikke i produktion.',
+  'AI er direkte i produktion. RAG-pipelines kører på jeres data, modeller er tilpasset jeres domæne, og I måler ROI systematisk.',
+  'AI-agenter handler på vegne af virksomheden inden for definerede rammer. Processer der tog uger tager nu minutter. Medarbejdere er human-in-the-loop.'
+];
+
+const bookChapters = [
+  {
+    num: 1, title: "Hvorfor AI-modenhed?",
+    desc: "Forskellen på AI-værktøjer og AI-modenhed. Dunning-Kruger-effekten i danske virksomheder.",
+    forLevels: [1,2,3,4,5], tag: "intro"
+  },
+  {
+    num: 2, title: "Standpunktet: Hvor er vi i dag?",
+    desc: "Sådan laver I en ærlig modenhedsvurdering med ledelsen. Assessment-metoden og fortolkning af resultater.",
+    forLevels: [1,2,3,4,5], tag: "intro"
+  },
+  {
+    num: 3, title: "Fra Passiv til Bevidst",
+    desc: "Strategi, ledelsesforankring, budget og de første use cases. Shadow Walk-metoden: start dér hvor arbejdet sker.",
+    forLevels: [1,2], tag: "start"
+  },
+  {
+    num: 4, title: "Data som fundament",
+    desc: "Datakvalitet, strukturering og tilgængelighed. Fra siloer til AI-klar datainfrastruktur.",
+    forLevels: [2,3], tag: "start"
+  },
+  {
+    num: 5, title: "De første AI-projekter",
+    desc: "Udvælgelse, eksekvering og dokumentation af pilot-projekter. Quick wins vs. strategiske sats.",
+    forLevels: [2,3], tag: "start"
+  },
+  {
+    num: 6, title: "Kompetencer & Kulturforandring",
+    desc: "Opkvalificering, change management og intern forankring. Fra frygt til ejerskab.",
+    forLevels: [2,3], tag: "next"
+  },
+  {
+    num: 7, title: "At krydse 'The Gap'",
+    desc: "Hvorfor 90% aldrig kommer videre — og hvad de 10% gør anderledes. Procesredesign og ledelsesmod.",
+    forLevels: [2,3], tag: "start"
+  },
+  {
+    num: 8, title: "RAG, embeddings og egne data",
+    desc: "Teknisk intro til RAG-pipelines, vektordatabaser og domænespecifikke modeller — for ledere, ikke udviklere.",
+    forLevels: [3,4], tag: "next"
+  },
+  {
+    num: 9, title: "AI i produktion — fra pilot til drift",
+    desc: "Integration med ERP, CRM og forretningskritiske systemer. ROI-måling og skalering.",
+    forLevels: [3,4], tag: "next"
+  },
+  {
+    num: 10, title: "Governance & EU-regulering",
+    desc: "AI-politik, GDPR, EU AI Act og ansvarlig AI. Frameworks for compliance i en SMV-kontekst.",
+    forLevels: [3,4,5], tag: "next"
+  },
+  {
+    num: 11, title: "Agentisk AI — det næste niveau",
+    desc: "MCP, tool-use og autonome AI-agenter. Human-in-the-loop-arkitektur og design af beslutningsrammer.",
+    forLevels: [4,5], tag: "later"
+  },
+  {
+    num: 12, title: "Vejen frem — jeres roadmap",
+    desc: "Praktisk skabelon til en AI-roadmap. Milepæle, ansvarsfordeling og forankring i bestyrelse og ledelse.",
+    forLevels: [1,2,3,4,5], tag: "later"
+  }
+];
+
+let currentQ = 0;
+let answers = new Array(questions.length).fill(null);
+
+function startQuiz() {
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const area = document.getElementById('questionArea');
+  document.getElementById('progressLabel').textContent = `Spørgsmål ${currentQ + 1} af ${questions.length}`;
+  document.getElementById('progressFill').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+  document.getElementById('backBtn').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').textContent = currentQ === questions.length - 1 ? 'Se resultater →' : 'Næste →';
+  document.getElementById('nextBtn').disabled = answers[currentQ] === null;
+
+  let html = `
+    <div class="quiz-dimension">${q.dimension}</div>
+    <div class="quiz-question">${q.question}</div>
+    <div class="quiz-context">${q.context}</div>
+    <div class="quiz-options">
+  `;
+  q.options.forEach((opt, i) => {
+    const sel = answers[currentQ] === i ? 'selected' : '';
+    html += `
+      <div class="quiz-option ${sel}" onclick="selectOption(${i})">
+        <div class="quiz-option-radio"></div>
+        <div>
+          <div class="quiz-option-text">${opt.text}</div>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  area.innerHTML = html;
+  area.style.animation = 'none';
+  area.offsetHeight;
+  area.style.animation = 'fadeUp 0.3s ease-out';
+}
+
+function selectOption(idx) {
+  answers[currentQ] = idx;
+  document.getElementById('nextBtn').disabled = false;
+  document.querySelectorAll('.quiz-option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === null) return;
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz').classList.add('hidden');
+  const el = document.getElementById('results');
+  el.classList.remove('hidden');
+
+  // Calculate scores
+  const dimScores = answers.map((a, i) => ({
+    dimension: questions[i].dimension,
+    score: questions[i].options[a].score
+  }));
+  const totalScore = dimScores.reduce((s, d) => s + d.score, 0) / dimScores.length;
+  const level = Math.round(totalScore);
+  const levelClamped = Math.max(1, Math.min(5, level));
+
+  // Colors
+  const barColors = {1:'var(--level-1)',2:'var(--level-2)',3:'var(--level-3)',4:'var(--level-4)',5:'var(--level-5)'};
+
+  // Determine book chapter priorities
+  const chaptersHTML = bookChapters.map(ch => {
+    let tag = '';
+    let priority = false;
+    if (ch.forLevels.includes(levelClamped) || ch.forLevels.includes(levelClamped + 1)) {
+      if (ch.tag === 'intro') {
+        tag = '<span class="book-ch-tag tag-start">Intro</span>';
+      } else if (ch.tag === 'start' && ch.forLevels.includes(levelClamped)) {
+        tag = '<span class="book-ch-tag tag-start">Start her</span>';
+        priority = true;
+      } else if (ch.tag === 'next' && ch.forLevels.includes(levelClamped + 1)) {
+        tag = '<span class="book-ch-tag tag-next">Næste skridt</span>';
+        priority = true;
+      } else if (ch.tag === 'next' && ch.forLevels.includes(levelClamped)) {
+        tag = '<span class="book-ch-tag tag-next">Relevant nu</span>';
+        priority = true;
+      } else if (ch.tag === 'later') {
+        tag = '<span class="book-ch-tag tag-later">Perspektiv</span>';
+      } else {
+        tag = '<span class="book-ch-tag tag-start">Relevant</span>';
+      }
+    } else {
+      tag = '<span class="book-ch-tag tag-later">Perspektiv</span>';
+    }
+    return `
+      <div class="book-chapter">
+        <div class="book-ch-num ${priority ? 'priority' : ''}">${ch.num}</div>
+        <div>
+          <div class="book-ch-title">${ch.title}</div>
+          <div class="book-ch-desc">${ch.desc}</div>
+          ${tag}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Ladder HTML
+  let ladderHTML = '';
+  for (let i = 5; i >= 1; i--) {
+    if (i === 2) {
+      ladderHTML += `
+        <div class="ladder-gap">
+          <div class="ladder-gap-line"></div>
+          <div class="ladder-gap-badge">The Gap — 90%</div>
+        </div>
+      `;
+    }
+    const cls = i === levelClamped ? 'current' : (Math.abs(i - levelClamped) >= 2 ? 'dimmed' : '');
+    ladderHTML += `
+      <div class="ladder-step ls-${i} ${cls}">
+        <div class="ls-num">${i}</div>
+        <div class="ls-name">${levelNames[i]}</div>
+      </div>
+    `;
+  }
+
+  // Score bars HTML
+  const scoreBarsHTML = dimScores.map(d => {
+    const pct = (d.score / 5) * 100;
+    const scoreLevel = Math.round(d.score);
+    return `
+      <div class="score-bar-row">
+        <div class="score-bar-label">${d.dimension}</div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" style="width:${pct}%;background:${barColors[scoreLevel] || barColors[3]}">${d.score}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Weakest dimensions
+  const sorted = [...dimScores].sort((a,b) => a.score - b.score);
+  const weakest = sorted.slice(0, 2);
+  const weakestText = weakest.map(w => `<strong>${w.dimension}</strong> (niveau ${w.score})`).join(' og ');
+
+  el.innerHTML = `
+    <div class="results-hero">
+      <div class="results-level-badge rl-${levelClamped}">
+        <div class="level-num">${levelClamped}</div>
+        ${levelNames[levelClamped]}
+      </div>
+      <div class="results-title">Jeres AI-modenhedsniveau: ${levelNames[levelClamped]}</div>
+      <div class="results-desc">${levelDescs[levelClamped]}</div>
+    </div>
+
+    <div class="score-section">
+      <div class="section-label">Score pr. dimension</div>
+      ${scoreBarsHTML}
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+      <div>
+        <div class="section-label">Placering på modellen</div>
+        <div class="ladder-mini" style="margin-top:0;">
+          ${ladderHTML}
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Fokusområder</div>
+        <div style="background:white;border-radius:10px;padding:1rem;box-shadow:0 2px 8px rgba(13,39,69,0.06);">
+          <p style="font-size:0.82rem;line-height:1.6;margin-bottom:0.5rem;">
+            Jeres svageste dimensioner er ${weakestText}. Det er her I bør fokusere for at rykke til næste niveau.
+          </p>
+          <p style="font-size:0.82rem;line-height:1.6;opacity:0.7;">
+            Gennemsnit: <strong>${totalScore.toFixed(1)}</strong> / 5.0
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-section">
+      <h3>Bogprojekt — Kapitelstruktur & Prioritering</h3>
+      <p class="book-intro">Baseret på jeres modenhedsniveau anbefales det at prioritere kapitlerne nedenfor. Kapitler markeret <span class="book-ch-tag tag-start" style="display:inline">Start her</span> er mest relevante for jeres aktuelle position. <span class="book-ch-tag tag-next" style="display:inline">Næste skridt</span> forbereder jer på næste niveau.</p>
+      ${chaptersHTML}
+    </div>
+
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="window.print()">🖨 Print resultater</button>
+      <button class="btn btn-secondary" onclick="resetQuiz()">↻ Tag testen igen</button>
+    </div>
+  `;
+
+  // Animate score bars
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach(bar => {
+      bar.style.width = bar.style.width;
+    });
+  }, 100);
+}
+
+function resetQuiz() {
+  currentQ = 0;
+  answers = new Array(questions.length).fill(null);
+  document.getElementById('results').classList.add('hidden');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('intro').classList.remove('hidden');
+}
+</script>
+</body>
+</html>

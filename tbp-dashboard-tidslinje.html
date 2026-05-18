@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TBP Dashboard — Tidslinje</title>
+<style>
+  :root {
+    --navy: #0D2745;
+    --cream: #F5EBDE;
+    --pink: #FBC9C3;
+    --blue: #B3E2EC;
+    --navy-light: #1a3a5c;
+    --navy-muted: rgba(13,39,69,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+  .page-header .subtitle {
+    font-size: 0.95rem;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--blue);
+    display: block;
+    line-height: 1.1;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+  }
+
+  /* ── Timeline ── */
+  .timeline-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 1rem;
+  }
+
+  .week-block {
+    position: relative;
+    padding-left: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .week-block::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--navy);
+    opacity: 0.15;
+  }
+  .week-block:last-of-type::before {
+    bottom: 50%;
+  }
+
+  .week-dot {
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 3px solid var(--cream);
+    z-index: 1;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .week-block.open .week-dot { background: var(--blue); transform: scale(1.2); }
+
+  .week-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    cursor: pointer;
+    padding: 0.6rem 0;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .week-header:hover .week-title { color: var(--navy-light); }
+
+  .week-period {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--navy);
+    color: var(--cream);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .week-title {
+    font-size: 1rem;
+    font-weight: 700;
+    transition: color 0.15s;
+  }
+  .week-toggle {
+    margin-left: auto;
+    font-size: 0.85rem;
+    opacity: 0.35;
+    transition: transform 0.25s, opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .week-block.open .week-toggle { transform: rotate(90deg); opacity: 0.6; }
+
+  .week-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+    opacity: 0;
+  }
+  .week-block.open .week-body {
+    max-height: 600px;
+    opacity: 1;
+  }
+
+  .week-content {
+    padding: 0.2rem 0 1.2rem;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--navy-light);
+  }
+
+  .tool-tag {
+    display: inline-block;
+    background: var(--navy-muted);
+    border-left: 3px solid var(--blue);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0 3px 3px 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 0.15rem 0.25rem 0.15rem 0;
+    white-space: nowrap;
+    color: var(--navy);
+  }
+  .tool-tag.compliance { border-left-color: var(--pink); }
+  .tool-tag.strategy { border-left-color: var(--navy); }
+
+  /* ── Læringer ── */
+  .section-title {
+    max-width: 720px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .learnings {
+    max-width: 720px;
+    margin: 1rem auto 3rem;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .learning-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    border: 1px solid rgba(13,39,69,0.08);
+    transition: box-shadow 0.2s, border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .learning-card:hover { border-color: var(--blue); }
+  .learning-card.open { border-color: var(--blue); box-shadow: 0 2px 12px rgba(13,39,69,0.08); }
+
+  .learning-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    user-select: none;
+  }
+  .learning-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--navy);
+    color: var(--cream);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    top: 1px;
+  }
+  .learning-title { font-size: 0.92rem; font-weight: 700; }
+  .learning-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s;
+    opacity: 0;
+  }
+  .learning-card.open .learning-body { max-height: 300px; opacity: 1; }
+  .learning-text {
+    padding-top: 0.6rem;
+    font-size: 0.87rem;
+    line-height: 1.6;
+    color: var(--navy-light);
+    padding-left: calc(22px + 0.6rem);
+  }
+
+  /* ── Footer ── */
+  .page-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.72rem;
+    opacity: 0.35;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>TBP Dashboard — Hvad jeg har lært,<br>og hvor lang tid det har taget</h1>
+  <p class="subtitle">Februar – april 2026</p>
+  <div class="stat-row">
+    <div class="stat"><span class="stat-num">8</span><span class="stat-label">Uger</span></div>
+    <div class="stat"><span class="stat-num">12+</span><span class="stat-label">Værktøjer</span></div>
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">IT-afdeling</span></div>
+  </div>
+</div>
+
+<div class="timeline-container" id="timeline">
+
+  <!-- Uge 1–2 -->
+  <div class="week-block">
+    <div class="week-dot"></div>
+    <div class="week-header" onclick="toggle(this)">
+      <span class="week-period">Uge 1–2</span>
+      <span class="week-title">Grundstenene</span>
+      <span class="week-toggle">▸</span>
+    </div>
+    <div class="week-body"><div class="week-content">
+      <p>De første byggesten faldt hurtigt på plads. Produktmanager blev bygget til Camilla — varenummer- og GTIN-styring hun brugte fra dag ét. Samtidig kom Emballageberegner og Prisberegner (spansk distributør), og selve TBP Dashboard med det mørke industrielle design, Windows taskbar-integration og OneDrive-filstruktur.</p>
+      <p style="margin-top:0.6rem">Parallelt: de første compliance-værktøjer til Biovene — INCI ingrediensverifikation og Produktclaims audit. Plus en IP-risikoanalyse af Imit8tion vs. Fenty/Dior.</p>
+      <div style="margin-top:0.7rem">
+        <span class="tool-tag">Produktmanager</span>
+        <span class="tool-tag">Emballageberegner</span>
+        <span class="tool-tag">Prisberegner</span>
+        <span class="tool-tag">TBP Dashboard</span>
+        <span class="tool-tag compliance">INCI Verifikation</span>
+        <span class="tool-tag compliance">Claims Audit</span>
+        <span class="tool-tag strategy">IP-risikoanalyse</span>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Uge 2–3 -->
+  <div class="week-block">
+    <div class="week-dot"></div>
+    <div class="week-header" onclick="toggle(this)">
+      <span class="week-period">Uge 2–3</span>
+      <span class="week-title">Planlægning & processer</span>
+      <span class="week-toggle">▸</span>
+    </div>
+    <div class="week-body"><div class="week-content">
+      <p>Årshjul med produktionstidsberegner — baglæns fra butiksdato med CNY-constraints og leverandør-leadtimes indregnet. AI Procesflow til bestyrelsen. Kundeinfo-værktøj. Opstartsskema med gavesæt-hierarki og fire GTIN-niveauer.</p>
+      <div style="margin-top:0.7rem">
+        <span class="tool-tag">Årshjul</span>
+        <span class="tool-tag">Kundeinfo</span>
+        <span class="tool-tag">Opstartsskema</span>
+        <span class="tool-tag strategy">AI Procesflow</span>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Uge 4 -->
+  <div class="week-block">
+    <div class="week-dot"></div>
+    <div class="week-header" onclick="toggle(this)">
+      <span class="week-period">Uge 4</span>
+      <span class="week-title">SoMe, CRM & kompatibilitet</span>
+      <span class="week-toggle">▸</span>
+    </div>
+    <div class="week-body"><div class="week-content">
+      <p>SoMe Planner til Imit8tion — TikTok og Instagram indholdsplanlægning. CRM-værktøj med Power BI-sync. Og så den slags arbejde ingen skriver om: Safari/Mac-kompatibilitetsproblemer der skulle løses på tværs af alle eksisterende værktøjer.</p>
+      <div style="margin-top:0.7rem">
+        <span class="tool-tag">SoMe Planner</span>
+        <span class="tool-tag">CRM-værktøj</span>
+        <span class="tool-tag compliance">Safari/Mac fixes</span>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Uge 5–6 -->
+  <div class="week-block">
+    <div class="week-dot"></div>
+    <div class="week-header" onclick="toggle(this)">
+      <span class="week-period">Uge 5–6</span>
+      <span class="week-title">Test, prioritering & strategi</span>
+      <span class="week-toggle">▸</span>
+    </div>
+    <div class="week-body"><div class="week-content">
+      <p>Use case-prioritering og test med masterstuderende Cedric og Nikita. Opstartsskemaet blev identificeret som strategisk backbone — det burde have været udgangspunktet. DPP-analyse viste at kosmetik-compliance først bliver relevant 2031–2033. RAG Roadmap board med Force Technology-framework og GenBI-integrationstiers.</p>
+      <div style="margin-top:0.7rem">
+        <span class="tool-tag strategy">Use case-prioritering</span>
+        <span class="tool-tag strategy">DPP-analyse</span>
+        <span class="tool-tag strategy">RAG Roadmap</span>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Uge 7–8 -->
+  <div class="week-block">
+    <div class="week-dot"></div>
+    <div class="week-header" onclick="toggle(this)">
+      <span class="week-period">Uge 7–8</span>
+      <span class="week-title">Konsolidering</span>
+      <span class="week-toggle">▸</span>
+    </div>
+    <div class="week-body"><div class="week-content">
+      <p>AI-netværksforløb ansøgning. Palle Optimizer. Fra 0 til 12+ fungerende værktøjer på 8 uger — uden IT-afdeling, uden udviklere, uden budget ud over et Claude Pro-abonnement.</p>
+      <div style="margin-top:0.7rem">
+        <span class="tool-tag">Palle Optimizer</span>
+        <span class="tool-tag strategy">AI-netværk ansøgning</span>
+      </div>
+    </div></div>
+  </div>
+
+</div>
+
+<h2 class="section-title">De vigtigste læringer</h2>
+
+<div class="learnings" id="learnings">
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">1</span>
+      <span class="learning-title">Byg først, integrer bagefter.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">Hvert værktøj blev stabiliseret som standalone HTML før vi overvejede systemintegration. Det forhindrede at fejl kaskaderede.</p></div>
+  </div>
+
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">2</span>
+      <span class="learning-title">Én daglig bruger er mere værd end ti strategiske visioner.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">Camillas daglige brug af Produktmanager afslørede flere fejl end nogen testplan.</p></div>
+  </div>
+
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">3</span>
+      <span class="learning-title">Domæneviden trumfer teknologi.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">De bedste korrektioner kom fra procesforståelse — at INCI-tjek sker to gange, at GTIN ikke kan auto-genereres, at "free-from"-claims er ulovlige. AI-værktøjet er kun så godt som den forretningslogik der fodrer det.</p></div>
+  </div>
+
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">4</span>
+      <span class="learning-title">Forenkling er den sværeste feature.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">Produktmanagers opdeling i daglig/admin-visning, Opstartsskemas 50%-tærskel for godkendelse — brugerne behøver ikke se alt.</p></div>
+  </div>
+
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">5</span>
+      <span class="learning-title">Design skaber adoption.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">Det konsistente mørke tema med cyan accenter gjorde at alle værktøjer føltes som ét system fra dag ét, selvom de teknisk var separate HTML-filer.</p></div>
+  </div>
+
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">6</span>
+      <span class="learning-title">Lad være med at bygge til lovgivning der ikke er vedtaget endnu.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">DPP-analysen viste at eksisterende værktøjer allerede dækker 60–70% af fremtidige krav — uden at vi bevidst designede til det.</p></div>
+  </div>
+
+  <div class="learning-card" onclick="toggleCard(this)">
+    <div class="learning-head">
+      <span class="learning-num">7</span>
+      <span class="learning-title">Start med det bærende.</span>
+    </div>
+    <div class="learning-body"><p class="learning-text">Opstartsskemaet blev sent identificeret som backbone — næste gang starter jeg der.</p></div>
+  </div>
+</div>
+
+<div class="page-footer">Digital Transformation i Praksis — TBP Supply A/S</div>
+
+<script>
+function toggle(header) {
+  const block = header.parentElement;
+  block.classList.toggle('open');
+}
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>

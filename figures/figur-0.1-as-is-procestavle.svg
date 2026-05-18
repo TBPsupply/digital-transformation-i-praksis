@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a5568"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="560" fill="#fafaf7"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="16" font-weight="600" fill="#1a202c">
+    Figur 0.1 — AS-IS procestavlen (anonymiseret), november 2024
+  </text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#718096">
+    Roller ned ad venstre · værktøjer hen over toppen · processkridt som blokke
+  </text>
+
+  <!-- Tools across top -->
+  <g font-size="11" font-weight="500" fill="#2d3748">
+    <rect x="170" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="220" y="98" text-anchor="middle">ERP</text>
+
+    <rect x="290" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="340" y="98" text-anchor="middle">Projektværktøj</text>
+
+    <rect x="410" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="460" y="98" text-anchor="middle">Compliance</text>
+
+    <rect x="530" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="580" y="98" text-anchor="middle">Excel-ark</text>
+
+    <rect x="650" y="80" width="100" height="28" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+    <text x="700" y="98" text-anchor="middle">E-mail</text>
+  </g>
+
+  <!-- Roles down the left -->
+  <g font-size="11" font-weight="600" fill="#2d3748">
+    <rect x="20" y="140" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="164" text-anchor="middle">Salg</text>
+
+    <rect x="20" y="200" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="224" text-anchor="middle">Produkt &amp; udvikling</text>
+
+    <rect x="20" y="260" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="284" text-anchor="middle">Indkøb &amp; logistik</text>
+
+    <rect x="20" y="320" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="344" text-anchor="middle">Design</text>
+
+    <rect x="20" y="380" width="120" height="38" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+    <text x="80" y="404" text-anchor="middle">Adm. koordinator</text>
+  </g>
+
+  <!-- Process steps in swimlanes -->
+  <g font-size="10" fill="#1a202c">
+    <!-- Salg row -->
+    <rect x="170" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="220" y="163" text-anchor="middle">Kundekontakt</text>
+
+    <rect x="290" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="340" y="163" text-anchor="middle">Tilbud (manuelt)</text>
+
+    <rect x="530" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="580" y="163" text-anchor="middle">Prisberegning</text>
+
+    <rect x="650" y="148" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="700" y="163" text-anchor="middle">Bekræftelse</text>
+
+    <!-- P&D row -->
+    <rect x="170" y="208" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="220" y="223" text-anchor="middle">Vareoprettelse</text>
+
+    <rect x="410" y="208" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="460" y="223" text-anchor="middle">Ingrediens-tjek</text>
+
+    <rect x="530" y="208" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="580" y="223" text-anchor="middle">Opstartsskema</text>
+
+    <!-- P&L row -->
+    <rect x="170" y="268" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="220" y="283" text-anchor="middle">Indkøbsordre</text>
+
+    <rect x="290" y="268" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="340" y="283" text-anchor="middle">Logistikpriser</text>
+
+    <rect x="650" y="268" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="700" y="283" text-anchor="middle">Forsendelse</text>
+
+    <!-- Design row -->
+    <rect x="290" y="328" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="340" y="343" text-anchor="middle">Konceptbrief</text>
+
+    <rect x="530" y="328" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="580" y="343" text-anchor="middle">Trykfiler</text>
+
+    <!-- Adm row -->
+    <rect x="410" y="388" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="460" y="403" text-anchor="middle">Emballage-data</text>
+
+    <rect x="650" y="388" width="100" height="22" rx="3" fill="white" stroke="#cbd5e0"/>
+    <text x="700" y="403" text-anchor="middle">Indberetning</text>
+  </g>
+
+  <!-- Arrows showing flow -->
+  <g stroke="#4a5568" stroke-width="1.2" fill="none" marker-end="url(#arrow1)">
+    <!-- Salg horizontal -->
+    <line x1="270" y1="159" x2="288" y2="159"/>
+    <line x1="390" y1="159" x2="528" y2="159"/>
+    <line x1="630" y1="159" x2="648" y2="159"/>
+
+    <!-- Cross-role: Salg → P&D -->
+    <line x1="220" y1="170" x2="220" y2="206"/>
+    <!-- P&D → P&L -->
+    <line x1="220" y1="230" x2="220" y2="266"/>
+    <!-- P&L → Design -->
+    <line x1="340" y1="290" x2="340" y2="326"/>
+    <!-- Design → Adm -->
+    <line x1="460" y1="350" x2="460" y2="386"/>
+  </g>
+
+  <!-- Sticky notes (chaos indicators) -->
+  <g font-size="10" font-style="italic" fill="#7c2d12">
+    <rect x="170" y="445" width="220" height="50" fill="#fef9c3" stroke="#facc15" stroke-width="1" transform="rotate(-2 280 470)"/>
+    <text x="280" y="465" text-anchor="middle" transform="rotate(-2 280 470)">"Samme data registreres</text>
+    <text x="280" y="480" text-anchor="middle" transform="rotate(-2 280 470)">tre steder — manuelt"</text>
+
+    <rect x="430" y="450" width="220" height="50" fill="#fef9c3" stroke="#facc15" stroke-width="1" transform="rotate(1.5 540 475)"/>
+    <text x="540" y="470" text-anchor="middle" transform="rotate(1.5 540 475)">"Compliance-godkendelse —</text>
+    <text x="540" y="485" text-anchor="middle" transform="rotate(1.5 540 475)">nogen følger op, andre glemmer"</text>
+
+    <rect x="680" y="445" width="200" height="50" fill="#fef9c3" stroke="#facc15" stroke-width="1" transform="rotate(-1 780 470)"/>
+    <text x="780" y="465" text-anchor="middle" transform="rotate(-1 780 470)">"Skabeloner udvikles</text>
+    <text x="780" y="480" text-anchor="middle" transform="rotate(-1 780 470)">ad hoc i samarbejde"</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="540" text-anchor="middle" font-size="10" fill="#a0aec0">
+    Strukturel illustration — roller, værktøjer og processkridt er anonymiseret i forhold til original Mural-tavle.
+  </text>
+</svg>
