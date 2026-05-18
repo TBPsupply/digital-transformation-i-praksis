@@ -137,6 +137,13 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
 .learning-box p{font-size:16px;color:var(--text);margin:0;line-height:1.65;}
 
 .figure-note{background:var(--cream-dark);border-radius:4px;padding:16px 20px;margin:2em 0;font-size:13px;color:var(--text-muted);font-style:italic;text-align:center;border:1px dashed rgba(90,100,120,0.2);}
+.figure-link{display:block;text-decoration:none;color:inherit;background:var(--cream-dark);border-radius:4px;padding:18px 22px;margin:2em 0;border:1px solid rgba(196,98,58,0.2);border-left:4px solid var(--brick);transition:all 0.2s ease;cursor:pointer;}
+.figure-link:hover{background:rgba(196,98,58,0.06);border-color:rgba(196,98,58,0.4);transform:translateX(2px);box-shadow:0 2px 8px rgba(26,39,68,0.06);}
+.figure-link-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--brick);margin-bottom:6px;font-family:'DM Sans',sans-serif;}
+.figure-link-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--navy);line-height:1.3;margin-bottom:4px;}
+.figure-link-desc{font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:10px;font-style:normal;}
+.figure-link-cta{font-size:12px;color:var(--brick);font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+.figure-link-cta::after{content:'\2197';font-size:13px;}
 
 .chapter-end{margin-top:80px;padding-top:40px;border-top:1px solid var(--cream-dark);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
 .chapter-end-prev{font-size:14px;color:var(--text-muted);text-decoration:none;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;transition:color 0.2s;padding:0;}
@@ -375,6 +382,14 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
       <p>Prisberegneren fra maj 2024 var stadig i brug — vokset til seks faneblade. Hver gang en ny sælger skulle bruge den, var hun nødt til at bede mig om en kopi, for ingen kunne huske, hvilken version der var den nyeste.</p>
       <p>Jeg byggede den om til en HTML-side. Det tog en eftermiddag. Claude skrev koden, jeg sagde til, hvor jeg ville have ting. Da vi var færdige, lå siden ét sted, og alle brugte altid den nyeste version.</p>
       <p>Det er det, kapitel 03 handler om. Men det hører hjemme her, fordi det er her, rejsen bliver håndgribelig — fra et regneark til et værktøj, der opdateres på minutter, når virkeligheden ændrer sig.</p>
+
+      <a class="figure-link" href="tbp-dashboard-tidslinje.html" target="_blank" rel="noopener">
+        <div class="figure-link-eyebrow">Figur 3.3 — interaktiv tidslinje</div>
+        <div class="figure-link-title">TBP-tidslinjen: 10 uger, 15+ værktøjer, 0 IT-afdeling</div>
+        <div class="figure-link-desc">Klikbar oversigt over hvad der blev bygget hvornår — fra Produktmanager i uge 1 til kontraktgeneratoren i uge 10. Hver række folder ud med detaljer.</div>
+        <span class="figure-link-cta">Åbn interaktiv figur i nyt vindue</span>
+      </a>
+
       <h2>Denne bog</h2>
       <p>Jeg sælger ikke en metode. Jeg fortæller, hvad jeg har gjort, hvilke fejl jeg har lavet, og hvilke genveje jeg har fundet undervejs.</p>
       <p>Magien i AI-assisteret byggearbejde ligger ikke i at have den perfekte plan fra start. Den ligger i samspillet med den sprogmodel, du arbejder med. Prøv, juster, prøv igen.</p>
@@ -405,17 +420,38 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
       <h2>AI-modenhed er ikke det samme som AI-værktøjer</h2>
       <p>Danmark klarer sig godt på AI-statistikkerne. Vi er et af de lande i Europa, der indfører AI hurtigst. Men det er ikke det samme som modenhed.</p>
       <p>Copilot i Word, ChatGPT til en mail, Power Automate med et AI-step — det er adgang. Det er tegn på, at folk har fundet knapperne. Det er ikke tegn på, at virksomheden har ændret noget strukturelt.</p>
+
+      <a class="figure-link" href="figur-1-1-genai-paradoks.html" target="_blank" rel="noopener">
+        <div class="figure-link-eyebrow">Figur 1.1 — interaktiv</div>
+        <div class="figure-link-title">Gen AI-paradokset: bred adoption, begrænset effekt</div>
+        <div class="figure-link-desc">78% bruger generativ AI. 80% rapporterer nul målbar effekt. 1% har moden strategi. McKinsey 2025 — animerede tal og forklaring af horisontal vs. vertikal AI.</div>
+        <span class="figure-link-cta">Åbn interaktiv figur i nyt vindue</span>
+      </a>
+
       <h3>Hvad modenhed faktisk kræver</h3>
       <p>Fire byggesten kendetegner modenhed frem for adgang. RAG-pipelines på egne data, så AI svarer ud fra <em>dine</em> dokumenter. Embeddings, der finder relateret indhold frem for blot matchende ord. Domænespecifikke modeller, der taler dit fagsprog. Og agentisk kode, hvor AI ikke blot svarer, men handler — kalder en API, henter data, verificerer.</p>
       <h3>AI's Dunning-Kruger</h3>
       <p>Virksomheder, der netop er begyndt at bruge AI, er typisk de mest begejstrede. De har prøvet Copilot og ChatGPT og er overbeviste om, at de er godt på vej. Det er de sjældent.</p>
       <p>Modenhedsmodellen, inspireret af Jesper Luff Olesen fra BCT, har fem niveauer: Passiv, Fragmenteret, Bevidst, Integreret og Autonom. Mellem niveau to og tre ligger "The Gap". 90% krydser den aldrig. At krydse kræver tre ting: ledelsesforankring med budget. Systematisk kortlægning af processer. Et bevidst valg om én use case.</p>
-      <div class="figure-note">Figur 1.3 — Modenhedsstigen: Passiv → Fragmenteret → [THE GAP] → Bevidst → Integreret → Autonom · 90% krydser aldrig kløften</div>
+      <a class="figure-link" href="figur-1-3-modenhedsstigen.html" target="_blank" rel="noopener">
+        <div class="figure-link-eyebrow">Figur 1.3 — interaktiv</div>
+        <div class="figure-link-title">Modenhedsstigen og "The Gap"</div>
+        <div class="figure-link-desc">Fem niveauer fra Passiv til Autonom. Kløften mellem niveau 2 og 3 markeret — 90% af virksomheder krydser den aldrig. Inkluderer de tre ting der skal til for at komme over.</div>
+        <span class="figure-link-cta">Åbn interaktiv figur i nyt vindue</span>
+      </a>
       <h2>Hvorfor SMV'er kan komme længst</h2>
       <p>Det instinktive billede af AI-transformation er store virksomheder med tusindvis af medarbejdere. Det giver en fornemmelse af, at det er de store, der vinder. Det er en misforståelse.</p>
       <p>Hos TBP gik der to dage fra tanken om en HTML-prisberegner til den lå i produktion. I en stor virksomhed ville det have krævet business case, steering committee og integrationsworkshop. AI ændrer sig hvert kvartal. Beslutningshastighed er ikke en luksus — det er en konkurrencefordel.</p>
       <p>En SMV har heller ikke gammel teknisk gæld. Da vi besluttede at flytte prisberegneren fra Excel til HTML, var der ingen systemer, der skulle eftergives. Vi byggede noget nyt og brugte det fremover. Det er en frihed, store virksomheder betaler dyrt for.</p>
       <p>Og en SMV kan teste på én medarbejder, der bruger et værktøj dagligt. Den første uge med prisberegneren afslørede fejl, der aldrig ville have dukket op i en testplan. Virkelig brug afslører virkelige friktionspunkter.</p>
+
+      <a class="figure-link" href="figur-1-5-smv-fordele.html" target="_blank" rel="noopener">
+        <div class="figure-link-eyebrow">Figur 1.5 — interaktiv</div>
+        <div class="figure-link-title">De tre SMV-fordele</div>
+        <div class="figure-link-desc">Beslutningshastighed (2 dage vs. 6–12 mdr), teknisk gæld (Excel vs. SAP fra 2003), brugerfeedback (1 daglig bruger vs. 10 fokusgrupper). Tre kolonner med konkrete tal og citater fra TBP.</div>
+        <span class="figure-link-cta">Åbn interaktiv figur i nyt vindue</span>
+      </a>
+
       <h2>Mockup-først, ikke teknologi-først</h2>
       <p>Virksomheder starter typisk med systemet. De åbner Power Automate og forbinder ting, inden de har testet, om flowet giver mening. Uger senere har de bygget noget, der teknisk virker, men løser det forkerte problem.</p>
       <p>Mit princip: mockup-først. Validér flow og struktur i en simpel prototype, inden du integrerer. En mockup koster næsten ingenting at lave om. En implementering koster tid, penge og momentum.</p>
@@ -454,7 +490,12 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
       <strong>4. Integreret</strong> — RAG i produktion. ROI måles. AI er infrastruktur.<br>
       <strong>5. Autonom</strong> — AI-agenter eksekverer. Human-in-the-loop.</p>
       <p>90% krydser aldrig "The Gap" fra niveau 2 til 3. Ikke fordi de ikke vil — men fordi det føles uoverskueligt at flytte fra værktøjsbrug til reel infrastruktur.</p>
-      <div class="figure-note">Modenhedstesten — tre spørgsmål, to minutter. Aktiveres her ved publicering.</div>
+      <a class="figure-link" href="ai-modenhedstest-teaser.html" target="_blank" rel="noopener">
+        <div class="figure-link-eyebrow">Interaktiv test — 2 minutter</div>
+        <div class="figure-link-title">Modenhedstesten: hvor står din virksomhed?</div>
+        <div class="figure-link-desc">Tre spørgsmål placerer dig på modenhedsstigen og foreslår hvilke kapitler du skal læse først. Den fulde otte-spørgsmåls-version er for abonnenter.</div>
+        <span class="figure-link-cta">Tag testen i nyt vindue</span>
+      </a>
       <h2>Claude som processor: fra opslagsværk til sparringspartner</h2>
       <p>De fleste bruger AI på niveau ét. Niveau tre er det, der faktisk rykker noget.</p>
       <p><strong>Niveau 1: AI som opslagsværk.</strong> Du stiller et spørgsmål, får et svar, går videre. Det fungerer til enkle faktuelle spørgsmål. Begrænsningen: AI'en ved ikke noget om <em>din</em> virksomhed.</p>
