@@ -183,7 +183,7 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
       <div class="hero-eyebrow">Ny bog · Maj 2026</div>
       <h1 class="hero-title">Digital Transformation <em>i Praksis</em></h1>
       <p class="hero-sub">Ikke teori. Ikke konsulentsprog. <strong>Dokumentationen af en reel virksomheds rejse</strong> — fra Excel-regneark til AI-platform, kapitel for kapitel, mens det sker.</p>
-      <div class="hero-badge">✓ Prolog + kapitel 1–2 er gratis — ingen tilmelding</div>
+      <div class="hero-badge">✓ Ambassadør-adgang: hele Del 1 (Prolog + kapitel 01–03)</div>
       <div class="hero-actions">
         <a class="btn-primary" onclick="openChapter('prolog')">Start læsning gratis →</a>
         <a class="btn-ghost" onclick="document.getElementById('chapters-section').scrollIntoView({behavior:'smooth'})">Se alle kapitler</a>
@@ -214,7 +214,7 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
     <div>
       <div class="strip-num">3</div>
       <div class="strip-label">Gratis kapitler</div>
-      <div class="strip-desc">Prolog + kapitel 1–2 uden tilmelding eller kreditkort</div>
+      <div class="strip-desc">Hele Del 1 åben for ambassadører — Prolog + kapitel 01–03</div>
     </div>
     <div>
       <div class="strip-num">39</div>
@@ -227,7 +227,7 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
 <section class="chapters-section" id="chapters-section">
   <div class="section-eyebrow">Indhold</div>
   <h2 class="section-title">Tolv kapitler. Én reel rejse.</h2>
-  <p class="section-intro">Bogen udgives løbende. Prolog + kapitel 00–02 er tilgængelige nu og gratis. Kapitel 03 og frem for abonnenter — publiceres månedligt.</p>
+  <p class="section-intro">Bogen udgives løbende. Som ambassadør har du fuld adgang til hele Del 1 — Prolog + kapitel 01–03. Kapitel 04 og frem publiceres månedligt for abonnenter.</p>
 
   <div class="chapter-row" onclick="openChapter('prolog')">
     <div class="ch-num">00</div>
@@ -256,13 +256,13 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
     <div class="ch-meta"><span class="badge-free">Gratis</span><span class="ch-arrow">→</span></div>
   </div>
 
-  <div class="chapter-row locked">
+  <div class="chapter-row" onclick="openChapter('kap03')">
     <div class="ch-num">03</div>
     <div class="ch-body">
       <h3>Første værktøjer: fra Excel til webapp på én eftermiddag</h3>
       <p>En eftermiddag med claude.ai. Seks forsøg, tre fejl, og én salgschef der begyndte at vise prisberegneren til kunder i realtid. Tolv værktøjer på otte uger. Nul IT-afdeling.</p>
     </div>
-    <div class="ch-meta"><span class="badge-locked">🔒 Abonnent</span></div>
+    <div class="ch-meta"><span class="badge-free">Ambassadør</span><span class="ch-arrow">→</span></div>
   </div>
 
   <div class="chapter-row locked">
@@ -304,7 +304,7 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
   <div class="paywall-box">
     <div class="paywall-lock">📖</div>
     <h2 class="paywall-title">Klar til at læse videre?</h2>
-    <p class="paywall-sub">Kapitel 03 og frem er for abonnenter. Alle kapitler, alle opdateringer — ingen binding.</p>
+    <p class="paywall-sub">Kapitel 04 og frem er for abonnenter. Alle kapitler, alle opdateringer — ingen binding.</p>
     <div class="paywall-price">39 <span>kr./mdr.</span></div>
     <div class="paywall-note">inkl. moms · afmeld når du vil</div>
     <div class="paywall-features">
@@ -333,7 +333,7 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
     <div class="rpd" id="dot-prolog"></div>
     <div class="rpd" id="dot-kap01"></div>
     <div class="rpd" id="dot-kap02"></div>
-    <div class="rpd" style="opacity:0.3;"></div>
+    <div class="rpd" id="dot-kap03"></div>
   </div>
 </div>
 
@@ -342,7 +342,7 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
     <button class="ch-tab" id="tab-prolog" onclick="openChapter('prolog')">Prolog</button>
     <button class="ch-tab" id="tab-kap01" onclick="openChapter('kap01')">Kapitel 01</button>
     <button class="ch-tab" id="tab-kap02" onclick="openChapter('kap02')">Kapitel 02</button>
-    <button class="ch-tab locked-tab" title="Kræver abonnement">Kapitel 03 🔒</button>
+    <button class="ch-tab" id="tab-kap03" onclick="openChapter('kap03')">Kapitel 03</button>
   </div>
 
   <!-- PROLOG -->
@@ -465,7 +465,74 @@ footer{background:#111827;padding:32px 40px;text-align:center;}
     </div>
     <div class="chapter-end">
       <button class="chapter-end-prev" onclick="openChapter('kap01')">← Kapitel 01</button>
-      <button class="chapter-end-next locked" onclick="alert('Kapitel 03 kræver abonnement.\n\n39 kr./mdr. inkl. moms — alle kapitler, ingen binding.\n\nAbonnement aktiveres ved launch.')">Kapitel 03 🔒</button>
+      <button class="chapter-end-next" onclick="openChapter('kap03')">Kapitel 03 →</button>
+    </div>
+  </div>
+
+  <!-- KAPITEL 03 -->
+  <div id="content-kap03" class="chapter-content" style="display:none;">
+    <div class="reader-eyebrow">Kapitel 03</div>
+    <h1 class="reader-chapter-title">Første værktøjer: <em>fra Excel til webapp på én eftermiddag</em></h1>
+    <p class="reader-lead">En eftermiddag med claude.ai. Seks forsøg, tre fejl, og én salgschef der begyndte at vise prisberegneren til kunder i realtid. Tolv værktøjer på otte uger. Nul IT-afdeling.</p>
+    <div class="reader-body">
+
+      <h2>3.1 — Tilbage til prisberegneren</h2>
+      <p>I februar 2026, næsten to år efter den første Excel-fil, sad jeg med den samme fil åben foran mig.</p>
+      <p>Den var vokset til seks faneblade. Det første faneblad var stadig det fra maj 2024, komplet med dollarkursen 6,91 fra den 13. maj. Rundt om det var der faneblade til Coop, Normal, Harald Nyborg, Løvbjerg og én med det sigende navn "BRUG DENNE".</p>
+      <p>Det konkrete øjeblik, der udløste det, var ikke dramatisk. En af vores sælgere spurgte mig om en kopi af filen. Igen. Det var formentlig den femte eller sjette gang over de foregående måneder.</p>
+      <p>Jeg sendte hende en kopi og tænkte: dette er ikke en løsning. Dette er en arbejdsgang, vi gentager manuelt, fordi vi ikke har gjort det ordentligt.</p>
+      <p>To ting var galt. For det første fandtes der ikke ét autoritativt sted, filen lå. For det andet var filen ikke mulig at opdatere for alle på én gang.</p>
+      <p>Begge problemer har et fælles svar: stop med at arbejde i en fil, og begynd at arbejde i et system. Det behøvede en eftermiddag.</p>
+
+      <h2>3.2 — Den første eftermiddag</h2>
+      <p>Jeg åbnede claude.ai omkring klokken to om eftermiddagen.</p>
+      <p>Jeg havde ingen teknisk baggrund i webudvikling. Jeg vidste, hvad HTML var, nogenlunde, men jeg havde aldrig bygget en webside fra bunden. Det var ikke et problem, fordi det heller ikke var det, jeg skulle.</p>
+      <p>Jeg forklarede Claude, hvad Excel-filen indeholdt, og hvad jeg ville have: den samme beregningslogik, men som en webside, der kunne ligge ét sted. Jeg uploadede et screenshot af filen.</p>
+      <p>Den første version kom ti minutter senere. Den var grim. Den manglede halvdelen af variablerne. Men beregningslogikken virkede. Indtastede jeg en FOB-pris, kom der en landed cost og en kædepris ud i den anden ende. Det er det vigtige, der sker i den situation: man holder op med at se på, hvad der mangler, og begynder at se på, hvad der virker.</p>
+      <p>Det er præcis den tilgang, som gør at mange SMV'er ender med at fortænke deres løsning: de ser prototype og tror, de ser slutprodukt. Magien ligger ikke i at have den perfekte plan. Den ligger i samspillet med den sprogmodel, du arbejder med, iteration efter iteration.</p>
+      <p>Anden time gik med at tilføje variablerne, der manglede. Told. Forsikring. Transporttype. Jeg forklarede beregningslogikken til Claude for hvert felt, ikke i kode, men i sætninger. <em>"Toldsatsen beregnes som denne procentdel af FOB-prisen plus fragtomkostningerne."</em> Claude omsatte det til kode.</p>
+      <div class="learning-box">
+        <div class="learning-label">Læring fra første eftermiddag</div>
+        <p>Når du beder Claude om at justere layoutet — "stram op på designet, det fylder for meget" — er du nødt til at være mere specifik. Fortæl Claude hvad grid-layoutet skal være, hvad fontstørrelsen skal være, og hvilke felter der skal grupperes. Ellers optimerer Claude konservativt. Vær præcis i samtalen.</p>
+      </div>
+      <p>Da jeg lukkede computeren klokken seks, havde jeg en webside. Den var ikke pæn. Men den virkede, og den lå ét sted.</p>
+
+      <h2>3.3 — Hvor det gik galt</h2>
+      <p>Seks forsøg, inden vi kom i mål. Det er ikke en dårlig score. Det er en normal score, når man eksperimenterer med ny teknologi uden en IT-afdeling i ryggen.</p>
+      <p><strong>Den danske talformat-fælde.</strong> Bruttoavancen viste 361,0% i stedet for 38,1. Omsætningen viste 225 i stedet for 225.000. Årsagen: beregninger blev gemt som dansk-formateret tekst med punktum som tusindtalsseparator. JavaScripts parseFloat forventer engelsk format. Det læste "38,1" som 38. Løsningen er generel: gem altid rå tal i koden, og formater kun ved visning. Aldrig omvendt.</p>
+      <p><strong>Safari-fælden.</strong> Prisberegneren virkede ikke på Mac. Safari blokerer JavaScript i lokale HTML-filer som sikkerhedsforanstaltning. Chrome gør det ikke. Da alle Windows-brugere brugte Chrome og alle Mac-brugere brugte Safari, fandt vi fejlen sent. Løsning: host filen på en rigtig webserver, så den ikke åbnes som en lokal fil.</p>
+      <p><strong>Hardcoded data.</strong> Den første version havde 168 HS-koder hardcodet direkte i HTML-filen. Over 25 KB rå data midt i koden. Adskil data fra interface fra dag ét.</p>
+
+      <h2>3.4 — Hvad gjorde det det hele værd</h2>
+      <p>Salgschefen begyndte at bruge prisberegneren den første uge. Hun fandt tre ting, der ikke fungerede, inden der var gået to dage. Alle tre observationer var korrekte. Ingen af dem ville have dukket op i en testplan.</p>
+      <p>En testplan beskriver, hvad du forventer kan gå galt. En rigtig bruger viser, hvad der faktisk går galt.</p>
+      <p>Der skete desuden noget andet, som vi ikke havde forudset. Salgschefen begyndte at bruge prisberegneren direkte i kundemøder, så i stedet for at notere ned, hvad kunden spurgte om, og sende et tilbud to dage senere, åbnede hun siden på sin bærbare, tastede tallene ind, og kunden kunne se resultatet i realtid.</p>
+      <div class="callout"><p>Det var ikke en funktion, vi havde designet. Det var blot en adfærd, der opstod, fordi et værktøj gjorde noget muligt, der ikke havde været muligt før.</p></div>
+      <p>Hvert nyt værktøj derefter tog kortere tid at bygge end det foregående. Ikke fordi Claude blev bedre, men fordi jeg lærte mønstrene og kendte fejlene.</p>
+
+      <h2>3.5 — Mønsteret bag de første værktøjer</h2>
+      <p>I løbet af de første otte uger byggede vi tolv værktøjer. Prisberegner, kontraktgenerator, produktmanager, emballageberegner, opstartsskema, INCI-validator og flere til. Uden IT-afdeling.</p>
+      <p><strong>Byg først, integrer bagefter.</strong> Hvert værktøj startede som en selvstændig HTML-side uden forbindelser til andre systemer. Infrastrukturen er svær at ændre. En HTML-side er nem at smide ud og bygge forfra. Stabiliser logikken i det enkle, inden du forbinder det med det komplekse.</p>
+      <p><strong>Én daglig bruger er mere værd end ti strategiske visioner.</strong> Da vi byggede Produktmanager til vores produktadministrator, afslørede hendes daglige brug inden for den første uge fejl, vi aldrig ville have identificeret i en workshop. At INCI-tjek sker to gange i processen, og ikke kun én. At GTIN-nummeret skal auto-genereres, og der kan være flere koder til samme produkt. At der er et felt, hun aldrig bruger, og tre felter, hun savner. Al den viden sidder i hende. Det eneste, der hentede den ud, var at give hende et virkeligt værktøj.</p>
+      <p><strong>Domæneviden trumfer teknologi.</strong> Claude ved ikke, hvad en INCI-liste er, medmindre du forklarer det. Din ekspertise om din forretning er langt mere værdifuld end nogen teknisk viden om, hvordan man spørger en AI.</p>
+      <p><strong>Forenkling er den sværeste feature.</strong> Opstartsskemaet startede med at vise 34 felter for alle brugere. I version to viste det ni felter for den daglige bruger og de resterende 25 kun for administratoren. Ingen klagede. Husk altid at designe til den konkrete opgave, ikke til den fulde funktionalitet.</p>
+
+      <h2>3.6 — Hvad jeg ville have ønsket nogen havde fortalt mig</h2>
+      <p><strong>Brug claude.ai frem for ChatGPT til at bygge ting.</strong> Jeg startede med ChatGPT, for det var det, jeg kendte. Anbefalingen om at skifte til claude.ai kom fra en deltager i Tech Circle-workshops i Aarhus i efteråret 2025, særligt til iterativt arbejde over længere samtaler med mange gensidigt afhængige trin. Det er ikke en anbefaling om at alle skal bruge Claude. Det er en anbefaling om at bruge det værktøj, der bedst kan holde konteksten over et helt byggeforløb.</p>
+      <p><strong>Adskil data fra interface fra dag ét.</strong> Hver eneste gang jeg ikke har gjort det, har jeg fortrudt det. Hardcoded data er usynlig gæld i version et og dyr gæld i version tre.</p>
+      <p><strong>Forvent at det første forsøg ikke er det rigtige.</strong> Version tre var det første, der virkede godt nok til daglig produktion. Planlæg tre iterationer og brug to eftermiddage i alt. Det er realistisk.</p>
+
+      <h2>3.7 — Hvor det førte hen</h2>
+      <p>Prisberegneren var ikke et afsluttet projekt, men den blev starten på et mønster.</p>
+      <p>Den spanske version kom to måneder senere. International rollout var ikke et stort projekt, det var en ny side, bygget på samme skelet som den første. Derefter kom kontraktgeneratoren. Produktmanager. Emballageberegner. Opstartsskema. INCI-validator. Et dashboard, der samlede det hele.</p>
+      <p>Tolv værktøjer på otte uger. Nul IT-afdeling.</p>
+      <p>Men friheden har et modstykke: jo flere værktøjer, jo mere nødvendig er integrationen. Tolv selvstændige HTML-sider er tolv isolerede øer, og at forbinde dem via API'er og MCP er det, kapitel 09 handler om.</p>
+      <p>Og imellem de to faser er der noget, der let overses, men som viste sig at være hele fundamentet: compliance. Uden compliance-laget bryder selv det bedste værktøj sammen, så snart der kommer rigtig brug af det i en reguleret industri. Det er hvad kapitel 04 handler om.</p>
+
+    </div>
+    <div class="chapter-end">
+      <button class="chapter-end-prev" onclick="openChapter('kap02')">← Kapitel 02</button>
+      <button class="chapter-end-next locked" onclick="document.getElementById('reading-view').style.display='none';document.getElementById('landing-view').style.display='block';document.querySelector('.paywall-section').scrollIntoView({behavior:'smooth'});">Kapitel 04 🔒</button>
     </div>
   </div>
 
@@ -480,13 +547,13 @@ function openChapter(ch){
   document.querySelectorAll('.chapter-content').forEach(c=>c.style.display='none');
   var el=document.getElementById('content-'+ch);
   if(el)el.style.display='block';
-  ['prolog','kap01','kap02'].forEach(function(id){
+  ['prolog','kap01','kap02','kap03'].forEach(function(id){
     var t=document.getElementById('tab-'+id);
     if(t)t.classList.toggle('active',id===ch);
     var d=document.getElementById('dot-'+id);
-    if(d){d.className='rpd';var order=['prolog','kap01','kap02'];var ci=order.indexOf(ch);var di=order.indexOf(id);if(di<ci)d.classList.add('done');else if(di===ci)d.classList.add('active');}
+    if(d){d.className='rpd';var order=['prolog','kap01','kap02','kap03'];var ci=order.indexOf(ch);var di=order.indexOf(id);if(di<ci)d.classList.add('done');else if(di===ci)d.classList.add('active');}
   });
-  var titles={prolog:'Prolog — Kapitel 00',kap01:'Kapitel 01',kap02:'Kapitel 02'};
+  var titles={prolog:'Prolog — Kapitel 00',kap01:'Kapitel 01',kap02:'Kapitel 02',kap03:'Kapitel 03'};
   document.getElementById('reader-title-bar').textContent=titles[ch]||'';
 }
 function closeReader(){
