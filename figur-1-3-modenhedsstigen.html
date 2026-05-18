@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figur 1.3 — Modenhedsstigen med "The Gap"</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1a2744;--navy-light:#243357;
+  --cream:#f5f0e8;--cream-dark:#ede7d9;
+  --brick:#c4623a;--brick-dark:#a84e2a;
+  --text:#1a2744;--text-muted:#5a6478;--text-light:#8a95a8;
+  --white:#ffffff;--border:#d5cdb8;
+  --ok:#3d7a56;--ok-bg:rgba(61,122,86,0.08);
+  --warn:#a84e2a;--warn-bg:rgba(168,78,42,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding:24px;}
+
+.widget{
+  max-width:760px;margin:0 auto;
+  background:var(--white);
+  border:1px solid var(--border);
+  box-shadow:0 20px 60px -20px rgba(26,39,68,0.15);
+  overflow:hidden;
+}
+
+/* ── Band ── */
+.band{
+  background:var(--navy);color:var(--cream);
+  padding:11px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.band-l{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;opacity:0.85;}
+.band-r{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--brick);}
+
+/* ── Title block ── */
+.title-block{
+  padding:32px 28px 24px;
+  border-bottom:1px solid var(--cream-dark);
+  background:linear-gradient(to bottom,var(--cream),var(--white));
+}
+.fig-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--brick);margin-bottom:10px;
+}
+.fig-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,3vw,26px);
+  color:var(--navy);line-height:1.2;margin-bottom:8px;
+}
+.fig-sub{
+  font-size:14px;color:var(--text-muted);line-height:1.55;max-width:580px;
+}
+
+/* ── Ladder ── */
+.ladder-wrap{
+  padding:28px;
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:24px;
+}
+@media(max-width:620px){
+  .ladder-wrap{grid-template-columns:1fr;}
+  .side-panel{border-left:none !important; padding-left:0 !important; border-top:1px solid var(--cream-dark); padding-top:20px !important;}
+}
+
+.ladder{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.rung{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 18px;
+  background:var(--cream);
+  border-left:3px solid var(--cream-dark);
+  opacity:0;
+  transform:translateX(-12px);
+  transition:opacity 0.5s ease, transform 0.5s ease, background 0.3s ease;
+}
+.rung.show{opacity:1;transform:translateX(0);}
+
+.rung-num{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--text-light);
+  width:28px;
+  flex-shrink:0;
+  text-align:center;
+  line-height:1;
+}
+.rung-body{flex:1;}
+.rung-name{
+  font-size:14px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:2px;
+  line-height:1.2;
+}
+.rung-desc{
+  font-size:12px;
+  color:var(--text-muted);
+  line-height:1.4;
+}
+
+/* Below-gap rungs (1-2) — muted */
+.rung.below{
+  background:var(--cream);
+  border-left-color:var(--cream-dark);
+}
+.rung.below .rung-num{color:var(--text-light);}
+
+/* Above-gap rungs (3-5) — navy accent */
+.rung.above{
+  background:rgba(26,39,68,0.04);
+  border-left-color:var(--navy);
+}
+.rung.above .rung-num{color:var(--navy);}
+.rung.above .rung-name{color:var(--navy);}
+
+/* The Gap divider */
+.gap-band{
+  position:relative;
+  margin:4px 0;
+  padding:14px 18px;
+  background:linear-gradient(90deg, var(--warn-bg), rgba(168,78,42,0.15), var(--warn-bg));
+  border-left:3px solid var(--brick);
+  border-top:1px dashed var(--brick);
+  border-bottom:1px dashed var(--brick);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  opacity:0;
+  transform:scale(0.96);
+  transition:opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+}
+.gap-band.show{opacity:1;transform:scale(1);}
+.gap-tag{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:14px;
+  font-weight:700;
+  color:var(--brick);
+  width:90px;
+  flex-shrink:0;
+  letter-spacing:0.01em;
+}
+.gap-stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  font-weight:700;
+  color:var(--brick);
+  line-height:1;
+}
+.gap-stat-label{
+  font-size:11px;
+  color:var(--text);
+  line-height:1.3;
+  margin-top:2px;
+}
+
+/* ── Side panel ── */
+.side-panel{
+  border-left:1px solid var(--cream-dark);
+  padding-left:24px;
+}
+.side-label{
+  font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text-light);margin-bottom:14px;
+}
+.cross-list{
+  list-style:none;
+  counter-reset:cross;
+  margin-bottom:18px;
+}
+.cross-list li{
+  counter-increment:cross;
+  position:relative;
+  padding-left:28px;
+  margin-bottom:12px;
+  font-size:12.5px;
+  color:var(--text);
+  line-height:1.45;
+}
+.cross-list li::before{
+  content:counter(cross);
+  position:absolute;
+  left:0;
+  top:0;
+  width:20px;
+  height:20px;
+  background:var(--brick);
+  color:var(--white);
+  font-family:'Playfair Display',serif;
+  font-size:11px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+}
+
+.dk-note{
+  background:var(--cream);
+  border-left:3px solid var(--navy);
+  padding:10px 12px;
+}
+.dk-note-label{
+  font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--navy);margin-bottom:4px;
+}
+.dk-note-text{font-size:11.5px;color:var(--text);line-height:1.5;}
+.dk-note-text em{font-style:italic;color:var(--brick);font-weight:600;font-style:normal;}
+
+/* ── Footer ── */
+.fig-footer{
+  padding:14px 28px;
+  border-top:1px solid var(--cream-dark);
+  background:var(--cream);
+}
+.citation-row{
+  font-size:11px;color:var(--text-light);line-height:1.55;
+}
+.citation-row sup{color:var(--brick);font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="widget">
+
+  <div class="band">
+    <span class="band-l">Digital Transformation i Praksis</span>
+    <span class="band-r">Figur 1.3</span>
+  </div>
+
+  <div class="title-block">
+    <div class="fig-eyebrow">Kapitel 01 — Figur 1.3</div>
+    <h2 class="fig-title">Modenhedsstigen og "The Gap"</h2>
+    <p class="fig-sub">Fem niveauer fra adgang til autonomi. Mellem niveau 2 og 3 ligger en kløft — ikke en teknologisk, men en organisatorisk. 90% af virksomheder krydser den aldrig.</p>
+  </div>
+
+  <div class="ladder-wrap">
+
+    <!-- Ladder -->
+    <div class="ladder">
+
+      <div class="rung below" data-step="1">
+        <span class="rung-num">1</span>
+        <div class="rung-body">
+          <div class="rung-name">Passiv</div>
+          <div class="rung-desc">AI er på radaren. Ingen konkret brug. Måske en Copilot-licens, der ikke åbnes.</div>
+        </div>
+      </div>
+
+      <div class="rung below" data-step="2">
+        <span class="rung-num">2</span>
+        <div class="rung-body">
+          <div class="rung-name">Fragmenteret</div>
+          <div class="rung-desc">Spredt eksperimenteren. Enkeltpersoner bruger ChatGPT eller Copilot ad hoc. Ingen fælles retning. <strong>Begejstringen er størst her.</strong></div>
+        </div>
+      </div>
+
+      <!-- THE GAP -->
+      <div class="gap-band" data-step="gap">
+        <div class="gap-tag">The Gap</div>
+        <div>
+          <div class="gap-stat-num"><span id="gap-pct">0</span>%</div>
+          <div class="gap-stat-label">af virksomheder krydser den aldrig. Ikke fordi de opgiver — fordi de ikke kan se hvad der skal til.</div>
+        </div>
+      </div>
+
+      <div class="rung above" data-step="3">
+        <span class="rung-num">3</span>
+        <div class="rung-body">
+          <div class="rung-name">Bevidst</div>
+          <div class="rung-desc">Ledelsesforankret. Processer er kortlagt. Én konkret use case er valgt og leveret.</div>
+        </div>
+      </div>
+
+      <div class="rung above" data-step="4">
+        <span class="rung-num">4</span>
+        <div class="rung-body">
+          <div class="rung-name">Integreret</div>
+          <div class="rung-desc">RAG på egne data. Vertikale AI-løsninger i drift. Domænespecifikke modeller. Governance på plads.</div>
+        </div>
+      </div>
+
+      <div class="rung above" data-step="5">
+        <span class="rung-num">5</span>
+        <div class="rung-body">
+          <div class="rung-name">Autonom</div>
+          <div class="rung-desc">Agentisk kode med tool-use og MCP. AI handler — kalder API'er, opdaterer systemer, verificerer mod regler.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Side panel -->
+    <div class="side-panel">
+      <div class="side-label">Hvad krydser kløften</div>
+      <ol class="cross-list">
+        <li><strong>Ledelsesforankring med budget</strong> — ikke en hensigtserklæring, men en reel allokering.</li>
+        <li><strong>Systematisk proceskortlægning</strong> — forudsætning for at vide hvad der er værd at bygge.</li>
+        <li><strong>Ét bevidst valg af use case</strong> — frem for at løse alt på én gang.</li>
+      </ol>
+
+      <div class="dk-note">
+        <div class="dk-note-label">AI's Dunning-Kruger</div>
+        <div class="dk-note-text">Selvtilliden er højest på niveau 2 — inden man ved nok til at vide, hvad man ikke ved.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="fig-footer">
+    <div class="citation-row">
+      Modenhedsmodellen er inspireret af Jesper Luff Olesen, Partner, BCT.<sup>¹</sup> Tal for kløften baseret på McKinsey 2025.<sup>²</sup>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function animatePct(el, target, duration) {
+  const start = performance.now();
+  function update(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(ease * target);
+    if (t < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+window.addEventListener('load', () => {
+  const rungs = document.querySelectorAll('.rung');
+  const gap = document.querySelector('.gap-band');
+  // Sequence: rungs 1,2 → gap → rungs 3,4,5
+  const order = [rungs[0], rungs[1], gap, rungs[2], rungs[3], rungs[4]];
+  order.forEach((el, i) => {
+    setTimeout(() => { if (el) el.classList.add('show'); }, 200 + i * 220);
+  });
+  // Animate gap percentage
+  setTimeout(() => animatePct(document.getElementById('gap-pct'), 90, 900), 200 + 2 * 220 + 200);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figur 1.5 — De tre SMV-fordele</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1a2744;--navy-light:#243357;
+  --cream:#f5f0e8;--cream-dark:#ede7d9;
+  --brick:#c4623a;--brick-dark:#a84e2a;
+  --text:#1a2744;--text-muted:#5a6478;--text-light:#8a95a8;
+  --white:#ffffff;--border:#d5cdb8;
+  --ok:#3d7a56;--ok-bg:rgba(61,122,86,0.08);
+  --warn:#a84e2a;--warn-bg:rgba(168,78,42,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding:24px;}
+
+.widget{
+  max-width:760px;margin:0 auto;
+  background:var(--white);
+  border:1px solid var(--border);
+  box-shadow:0 20px 60px -20px rgba(26,39,68,0.15);
+  overflow:hidden;
+}
+
+/* ── Band ── */
+.band{
+  background:var(--navy);color:var(--cream);
+  padding:11px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.band-l{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;opacity:0.85;}
+.band-r{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--brick);}
+
+/* ── Title block ── */
+.title-block{
+  padding:32px 28px 24px;
+  border-bottom:1px solid var(--cream-dark);
+  background:linear-gradient(to bottom,var(--cream),var(--white));
+}
+.fig-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--brick);margin-bottom:10px;
+}
+.fig-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,3vw,26px);
+  color:var(--navy);line-height:1.2;margin-bottom:8px;
+}
+.fig-sub{
+  font-size:14px;color:var(--text-muted);line-height:1.55;max-width:580px;
+}
+
+/* ── Three columns ── */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:0;
+  padding:0;
+}
+@media(max-width:680px){
+  .cards{grid-template-columns:1fr;}
+  .card{border-right:none !important;border-bottom:1px solid var(--cream-dark);}
+  .card:last-child{border-bottom:none;}
+}
+
+.card{
+  padding:24px 20px;
+  border-right:1px solid var(--cream-dark);
+  display:flex;
+  flex-direction:column;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 0.5s ease, transform 0.5s ease;
+}
+.card.show{opacity:1;transform:translateY(0);}
+.card:last-child{border-right:none;}
+
+.card-eyebrow{
+  font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--brick);margin-bottom:8px;
+}
+.card-title{
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  color:var(--navy);
+  line-height:1.2;
+  margin-bottom:18px;
+}
+
+/* Comparison row */
+.compare{
+  margin-bottom:16px;
+}
+.compare-label{
+  font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-light);
+  margin-bottom:6px;
+}
+.compare-val{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  line-height:1.1;
+  margin-bottom:4px;
+}
+.compare-val.smv{color:var(--brick);}
+.compare-val.big{color:var(--text-light);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(138,149,168,0.5);}
+.compare-sub{
+  font-size:11.5px;
+  color:var(--text-muted);
+  line-height:1.4;
+}
+
+.vs-divider{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:10px 0;
+}
+.vs-line{flex:1;height:1px;background:var(--cream-dark);}
+.vs-text{
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:0.16em;
+  color:var(--text-light);
+  text-transform:uppercase;
+}
+
+.card-quote{
+  margin-top:auto;
+  padding-top:16px;
+  border-top:1px dashed var(--cream-dark);
+  font-size:11.5px;
+  font-style:italic;
+  color:var(--text-muted);
+  line-height:1.45;
+}
+
+/* ── Caveat row ── */
+.caveat{
+  background:var(--cream);
+  border-top:1px solid var(--cream-dark);
+  padding:18px 28px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+.caveat-icon{
+  flex-shrink:0;
+  width:28px;height:28px;
+  border-radius:50%;
+  background:var(--warn-bg);
+  color:var(--brick);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-weight:700;
+  font-size:16px;
+}
+.caveat-body{flex:1;}
+.caveat-label{
+  font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--brick);margin-bottom:3px;
+}
+.caveat-text{
+  font-size:12px;color:var(--text);line-height:1.5;
+}
+
+/* ── Footer ── */
+.fig-footer{
+  padding:14px 28px;
+  border-top:1px solid var(--cream-dark);
+  background:var(--white);
+}
+.citation-row{
+  font-size:11px;color:var(--text-light);line-height:1.55;
+}
+</style>
+</head>
+<body>
+
+<div class="widget">
+
+  <div class="band">
+    <span class="band-l">Digital Transformation i Praksis</span>
+    <span class="band-r">Figur 1.5</span>
+  </div>
+
+  <div class="title-block">
+    <div class="fig-eyebrow">Kapitel 01 — Figur 1.5</div>
+    <h2 class="fig-title">De tre SMV-fordele</h2>
+    <p class="fig-sub">En SMV kan ikke konkurrere på modelkvalitet eller ML-ingeniører. Men på de tre parametre der faktisk afgør, om vertikal AI lykkes, har den strukturelle fordele over store virksomheder.</p>
+  </div>
+
+  <div class="cards">
+
+    <!-- Card 1 -->
+    <div class="card" data-i="0">
+      <div class="card-eyebrow">Fordel 01</div>
+      <h3 class="card-title">Beslutningshastighed</h3>
+
+      <div class="compare">
+        <div class="compare-label">SMV (TBP Supply)</div>
+        <div class="compare-val smv">2 dage</div>
+        <div class="compare-sub">Idé → produktion. Inkl. en eftermiddag med byggeri og en morgen med test fra salgschefen.</div>
+      </div>
+
+      <div class="vs-divider"><span class="vs-line"></span><span class="vs-text">vs.</span><span class="vs-line"></span></div>
+
+      <div class="compare">
+        <div class="compare-label">Stor virksomhed</div>
+        <div class="compare-val big">6–12 mdr</div>
+        <div class="compare-sub">Business case, møder med salg/logistik/finans, IT-integrationsworkshop, governance.</div>
+      </div>
+
+      <div class="card-quote">"Vi kan eksperimentere 10 gange, mens en stor virksomhed godkender det første forsøg."</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card" data-i="1">
+      <div class="card-eyebrow">Fordel 02</div>
+      <h3 class="card-title">Ingen teknisk gæld</h3>
+
+      <div class="compare">
+        <div class="compare-label">SMV (TBP Supply)</div>
+        <div class="compare-val smv">Excel + Word</div>
+        <div class="compare-sub">Erstattelige værktøjer. Ingen integrationskontrakter at skrive om når noget nyt skal bygges.</div>
+      </div>
+
+      <div class="vs-divider"><span class="vs-line"></span><span class="vs-text">vs.</span><span class="vs-line"></span></div>
+
+      <div class="compare">
+        <div class="compare-label">Stor virksomhed</div>
+        <div class="compare-val big">SAP fra 2003</div>
+        <div class="compare-sub">Datastrukturer fra 20 år tilbage. ERP uden brugbar API. Vigtigste årsag til at &lt;10% af AI-projekter skalerer.</div>
+      </div>
+
+      <div class="card-quote">"Vi byggede noget nyt og brugte det fremover — ingen systemer skulle eftergives."</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card" data-i="2">
+      <div class="card-eyebrow">Fordel 03</div>
+      <h3 class="card-title">Virkelig brugerfeedback</h3>
+
+      <div class="compare">
+        <div class="compare-label">SMV (TBP Supply)</div>
+        <div class="compare-val smv">1 daglig bruger</div>
+        <div class="compare-sub">Salgschefen brugte prisberegneren første uge. Den nåede V3 — ikke planlagt, men fordi virkelig brug viste hvad der manglede.</div>
+      </div>
+
+      <div class="vs-divider"><span class="vs-line"></span><span class="vs-text">vs.</span><span class="vs-line"></span></div>
+
+      <div class="compare">
+        <div class="compare-label">Stor virksomhed</div>
+        <div class="compare-val big">10 fokusgrupper</div>
+        <div class="compare-sub">Strukturerede tests afslører strukturerede problemer. Friktionspunkter dukker først op i daglig brug.</div>
+      </div>
+
+      <div class="card-quote">"Virkelig brug afslører virkelige friktionspunkter — bevægelsesmønstre man ikke kan forestille sig på forhånd."</div>
+    </div>
+
+  </div>
+
+  <!-- Caveat -->
+  <div class="caveat">
+    <div class="caveat-icon">!</div>
+    <div class="caveat-body">
+      <div class="caveat-label">Det er ikke kun fordele</div>
+      <div class="caveat-text">En SMV har ikke en dedikeret AI-ansvarlig, en compliance-afdeling eller en sikkerhedsekspert. Alle roller lander hos én eller to personer. Derfor er det vigtigere at arbejde metodisk og vide, hvornår man skal indhente ekstern sparring.</div>
+    </div>
+  </div>
+
+  <div class="fig-footer">
+    <div class="citation-row">
+      Tal og eksempler fra TBP Supply A/S, 2026. Skalerings-data: QuantumBlack / McKinsey, juni 2025.
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.addEventListener('load', () => {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, i) => {
+    setTimeout(() => card.classList.add('show'), 200 + i * 220);
+  });
+});
+</script>
+</body>
+</html>
