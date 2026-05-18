@@ -6,9 +6,9 @@ adgang: betalt
 sidst_opdateret: 2026-05-17
 ---
 
-# Kapitel 03 — Første værktøjer: fra Excel til webapp på én eftermiddag
+# Kapitel 03 Første værktøjer: fra Excel til webapp på én eftermiddag
 
-## 3.1 — Tilbage til prisberegneren
+## 3.1 Tilbage til prisberegneren
 
 I februar 2026, næsten to år efter den første Excel-fil, sad jeg med den samme fil åben foran mig.
 
@@ -22,7 +22,7 @@ To ting var galt. For det første fandtes der ikke ét autoritativt sted, filen 
 
 Begge problemer har et fælles svar: stop med at arbejde i en fil, og begynd at arbejde i et system. Det behøvede en eftermiddag.
 
-## 3.2 — Den første eftermiddag
+## 3.2 Den første eftermiddag
 
 Jeg åbnede claude.ai omkring klokken to om eftermiddagen.
 
@@ -40,7 +40,7 @@ En konkret læring: når du beder Claude om at justere layoutet — "stram op p�
 
 Da jeg lukkede computeren klokken seks, havde jeg en webside. Den var ikke pæn. Men den virkede — og den lå ét sted.
 
-## 3.3 — Hvor det gik galt
+## 3.3 Hvor det gik galt
 
 Seks forsøg, inden vi kom i mål. Det er ikke en dårlig score. Det er en normal score, når man eksperimenterer med ny teknologi uden en IT-afdeling i ryggen.
 
@@ -62,7 +62,7 @@ Løsning: host filen på en rigtig webserver, så den ikke åbnes som en lokal f
 
 Den første version havde 168 HS-koder hardcodet direkte i HTML-filen. Over 25 KB rå data midt i koden. Adskil data fra interface fra dag ét.
 
-## 3.4 — Hvad gjorde det det hele værd
+## 3.4 Hvad gjorde det det hele værd
 
 Salgschefen begyndte at bruge prisberegneren den første uge. Hun fandt tre ting, der ikke fungerede, inden der var gået to dage. Alle tre observationer var korrekte. Ingen af dem ville have dukket op i en testplan.
 
@@ -74,7 +74,7 @@ Det var ikke en funktion, vi havde designet. Det var blot en adfærd, der opstod
 
 Hvert nyt værktøj derefter tog kortere tid at bygge end det foregående — ikke fordi Claude blev bedre, men fordi jeg lærte mønstrene og kendte fejlene.
 
-## 3.5 — Mønsteret bag de første værktøjer
+## 3.5 Mønsteret bag de første værktøjer
 
 I løbet af de første otte uger byggede vi tolv værktøjer. Prisberegner, kontraktgenerator, produktmanager, emballageberegner, opstartsskema, INCI-validator og flere til. Uden IT-afdeling.
 
@@ -96,7 +96,7 @@ Claude ved ikke, hvad en INCI-liste er, medmindre du forklarer det. Din eksperti
 
 Opstartsskemaet startede med at vise 34 felter for alle brugere. I version to viste det ni felter for den daglige bruger og de resterende 25 kun for administratoren. Ingen klagede. Husk altid at designe til den konkrete opgave, ikke til den fulde funktionalitet.
 
-## 3.6 — Hvad jeg ville have ønsket nogen havde fortalt mig
+## 3.6 Hvad jeg ville have ønsket nogen havde fortalt mig
 
 **Brug claude.ai frem for ChatGPT til at bygge ting**
 
@@ -110,7 +110,7 @@ Hver eneste gang jeg ikke har gjort det, har jeg fortrudt det. Hardcoded data er
 
 Version tre var det første, der virkede godt nok til daglig produktion. Planlæg tre iterationer og brug to eftermiddage i alt. Det er realistisk.
 
-## 3.7 — Hvor det førte hen
+## 3.7 Hvor det førte hen
 
 Prisberegneren var ikke et afsluttet projekt, men den blev starten på et mønster.
 
